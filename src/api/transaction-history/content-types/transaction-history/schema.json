@@ -4,7 +4,8 @@
   "info": {
     "singularName": "transaction-history",
     "pluralName": "transaction-histories",
-    "displayName": "transaction_history"
+    "displayName": "transaction_history",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -27,6 +28,18 @@
       "type": "string"
     },
     "transaction_hash": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "bank_account_name": {
+      "type": "string"
+    },
+    "gas_price": {
+      "type": "string"
+    },
+    "phone_number": {
       "type": "string"
     }
   }
