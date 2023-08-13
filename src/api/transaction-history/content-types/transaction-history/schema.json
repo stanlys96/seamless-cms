@@ -47,6 +47,9 @@
     },
     "idr_value": {
       "type": "string"
+    },
+    "transaction_success": {
+      "type": "boolean"
     }
   }
 }
