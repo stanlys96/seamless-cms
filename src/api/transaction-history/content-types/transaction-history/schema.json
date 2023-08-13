@@ -50,6 +50,9 @@
     },
     "transaction_success": {
       "type": "boolean"
+    },
+    "wallet_destination": {
+      "type": "string"
     }
   }
 }
