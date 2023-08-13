@@ -41,6 +41,12 @@
     },
     "phone_number": {
       "type": "string"
+    },
+    "token_value": {
+      "type": "string"
+    },
+    "idr_value": {
+      "type": "string"
     }
   }
 }
