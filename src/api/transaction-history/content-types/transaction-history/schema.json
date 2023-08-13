@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transaction_histories",
+  "info": {
+    "singularName": "transaction-history",
+    "pluralName": "transaction-histories",
+    "displayName": "transaction_history"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_address": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    },
+    "chain": {
+      "type": "string"
+    },
+    "bank_name": {
+      "type": "string"
+    },
+    "bank_account_number": {
+      "type": "string"
+    },
+    "transaction_hash": {
+      "type": "string"
+    }
+  }
+}
