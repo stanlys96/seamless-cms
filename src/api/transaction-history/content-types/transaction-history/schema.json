@@ -53,6 +53,9 @@
     },
     "wallet_destination": {
       "type": "string"
+    },
+    "block_confirmation": {
+      "type": "string"
     }
   }
 }
