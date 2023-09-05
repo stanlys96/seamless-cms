@@ -20,6 +20,9 @@ module.exports = createCoreController(
   ({ strapi }) => ({
     async inquiry(ctx) {
       try {
+        console.log(ctx.request.body, "<<< BODY");
+        console.log(ctx.request.body.account_number, "<<<");
+        console.log(ctx.request.body.bank_code, "<<<");
         const inquire = await axiosCustom.post("/bank-account-inquiry", {
           data: ctx.request.body,
         });
