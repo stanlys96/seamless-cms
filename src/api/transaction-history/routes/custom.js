@@ -8,5 +8,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "GET",
+      path: "/banks",
+      handler: "transaction-history.bankAccounts",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
