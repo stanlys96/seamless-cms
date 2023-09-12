@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wallet_accounts",
+  "info": {
+    "singularName": "wallet-account",
+    "pluralName": "wallet-accounts",
+    "displayName": "wallet_account"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_address": {
+      "type": "string"
+    },
+    "bank_code": {
+      "type": "string"
+    },
+    "bank_account_name": {
+      "type": "string"
+    },
+    "bank_account_number": {
+      "type": "string"
+    }
+  }
+}
