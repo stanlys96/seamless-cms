@@ -29,6 +29,7 @@ module.exports = {
       },
     });
     io.on("connection", (socket) => {
+      console.log("a user is connected!");
       socket.on("check-bank", async (data) => {
         console.log(data, "<<<");
       });
