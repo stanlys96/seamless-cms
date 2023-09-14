@@ -46,6 +46,14 @@ module.exports = createCoreController(
         return e.response.data;
       }
     },
+    async balance(ctx) {
+      try {
+        const data = await axiosCustom.get("/v2/general/balance");
+        return data.data;
+      } catch (e) {
+        return e.response.data;
+      }
+    },
     async createDisbursement(ctx) {
       try {
         const { account_number, bank_code, amount, idempotency_key } =

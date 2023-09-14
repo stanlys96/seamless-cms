@@ -17,6 +17,14 @@ module.exports = {
       },
     },
     {
+      method: "GET",
+      path: "/balance",
+      handler: "transaction-history.balance",
+      config: {
+        auth: false,
+      },
+    },
+    {
       method: "POST",
       path: "/disbursement",
       handler: "transaction-history.createDisbursement",
