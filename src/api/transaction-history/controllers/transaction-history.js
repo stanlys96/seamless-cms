@@ -72,14 +72,16 @@ module.exports = createCoreController(
     },
     async callbackInquiry(ctx) {
       try {
-        console.log(ctx.request.body);
+        const theData = JSON.parse(ctx.request.body.data);
+        console.log(theData);
       } catch (e) {
         console.log(e, "<<< E");
       }
     },
     async callbackDisbursement(ctx) {
       try {
-        console.log(ctx.request.body);
+        const theData = JSON.parse(ctx.request.body.data);
+        console.log(theData);
       } catch (e) {
         console.log(e, "<<< E");
       }
