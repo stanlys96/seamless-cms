@@ -61,5 +61,21 @@ module.exports = createCoreController(
         return e.response.data;
       }
     },
+    async callbackInquiry(ctx) {
+      try {
+        console.log(ctx);
+        console.log(ctx.request.body);
+      } catch (e) {
+        console.log(e, "<<< E");
+      }
+    },
+    async callbackDisbursement(ctx) {
+      try {
+        console.log(ctx);
+        console.log(ctx.request.body);
+      } catch (e) {
+        console.log(e, "<<< E");
+      }
+    },
   })
 );

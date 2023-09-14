@@ -24,5 +24,21 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/callback-inquiry",
+      handler: "transaction-history.callbackInquiry",
+      config: {
+        auth: false,
+      },
+    },
+    {
+      method: "POST",
+      path: "/callback-disbursement",
+      handler: "transaction-history.callbackDisbursement",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
