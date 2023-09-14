@@ -50,8 +50,6 @@ module.exports = createCoreController(
       try {
         const { account_number, bank_code, amount, idempotency_key } =
           ctx.request.body;
-        console.log(ctx.request.body);
-        console.log(ctx.request.body.idempotency_key, "<<<<");
         const disburse = await axiosCustom.post(
           "/v3/disbursement",
           {
@@ -81,18 +79,27 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
-        console.log(theData);
         const entry = await strapi.db
           .query("api::transaction-history.transaction-history")
           .update({
             where: {
-              transaction_id: "451943357",
+              transaction_id: theData.id,
             },
             data: {
               status: "Completed",
+              receipt: theData.receipt,
             },
           });
-        console.log(entry, "<<< entry");
+        const flipEntry = await strapi.db
+          .query("api::transaction-history.transaction-history")
+          .update({
+            where: {
+              transaction_id: theData.id,
+            },
+            data: {
+              receipt: theData.receipt,
+            },
+          });
       } catch (e) {
         console.log(e, "<<< E");
       }
