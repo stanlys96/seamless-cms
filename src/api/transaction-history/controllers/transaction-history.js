@@ -91,7 +91,7 @@ module.exports = createCoreController(
             },
           });
         const flipEntry = await strapi.db
-          .query("api::transaction-history.transaction-history")
+          .query("api::flip-transaction.flip-transaction")
           .update({
             where: {
               transaction_id: theData.id,
