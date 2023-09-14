@@ -19,7 +19,7 @@ const axiosCustom = axios.default.create({
 const io = new Server(strapi.server.httpServer, {
   cors: {
     // cors setup
-    origin: "https://seamless-test.vercel.app/",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
