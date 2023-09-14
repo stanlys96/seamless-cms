@@ -16,5 +16,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/disbursement",
+      handler: "transaction-history.createDisbursement",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
