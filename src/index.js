@@ -1,4 +1,6 @@
-'use strict';
+"use strict";
+
+const { Server } = require("socket.io");
 
 module.exports = {
   /**
@@ -16,5 +18,20 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {},
+  bootstrap(/*{ strapi }*/) {
+    const io = new Server(strapi.server.httpServer, {
+      cors: {
+        // cors setup
+        origin: "https://seamless-test.vercel.app/",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true,
+      },
+    });
+    io.on("connection", (socket) => {
+      socket.on("check-bank", async (data) => {
+        console.log(data, "<<<");
+      });
+    });
+  },
 };
