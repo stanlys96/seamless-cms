@@ -87,27 +87,29 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
-        const entry = await strapi.db
-          .query("api::transaction-history.transaction-history")
-          .update({
-            where: {
-              transaction_id: theData.id,
-            },
-            data: {
-              status: "Completed",
-              receipt: theData.receipt,
-            },
-          });
-        const flipEntry = await strapi.db
-          .query("api::flip-transaction.flip-transaction")
-          .update({
-            where: {
-              transaction_id: theData.id,
-            },
-            data: {
-              receipt: theData.receipt,
-            },
-          });
+        if (theData.receipt) {
+          const entry = await strapi.db
+            .query("api::transaction-history.transaction-history")
+            .update({
+              where: {
+                transaction_id: theData.id,
+              },
+              data: {
+                status: "Completed",
+                receipt: theData.receipt,
+              },
+            });
+          const flipEntry = await strapi.db
+            .query("api::flip-transaction.flip-transaction")
+            .update({
+              where: {
+                transaction_id: theData.id,
+              },
+              data: {
+                receipt: theData.receipt,
+              },
+            });
+        }
       } catch (e) {
         console.log(e, "<<< E");
       }
