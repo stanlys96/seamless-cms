@@ -63,7 +63,6 @@ module.exports = createCoreController(
     },
     async callbackInquiry(ctx) {
       try {
-        console.log(ctx);
         console.log(ctx.request.body);
       } catch (e) {
         console.log(e, "<<< E");
@@ -71,7 +70,6 @@ module.exports = createCoreController(
     },
     async callbackDisbursement(ctx) {
       try {
-        console.log(ctx);
         console.log(ctx.request.body);
       } catch (e) {
         console.log(e, "<<< E");
