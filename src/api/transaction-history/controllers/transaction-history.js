@@ -41,8 +41,9 @@ module.exports = createCoreController(
       try {
         const { account_number, bank_code, amount, idempotency_key } =
           ctx.request.body;
-        console.log(ctx.request.body);
-        console.log(ctx.request.body.idempotency_key, "<<<<");
+        const res = JSON.parse(ctx.request.body);
+        console.log(res);
+        console.log(res.idempotency_key, "<<<<");
         const disburse = await axiosCustom.post(
           "/v3/disbursement",
           {
