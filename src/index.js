@@ -1,7 +1,5 @@
 "use strict";
 
-const { Server } = require("socket.io");
-
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -18,21 +16,5 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {
-    const io = new Server(strapi.server.httpServer, {
-      cors: {
-        // cors setup
-        origin: "https://seamless-test.vercel.app/",
-        methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true,
-      },
-    });
-    io.on("connection", (socket) => {
-      console.log("a user is connected!");
-      socket.on("check-bank", async (data) => {
-        console.log(data, "<<<");
-      });
-    });
-  },
+  bootstrap(/*{ strapi }*/) {},
 };

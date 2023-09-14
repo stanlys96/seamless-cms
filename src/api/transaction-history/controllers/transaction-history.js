@@ -7,11 +7,22 @@
 const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
 require("dotenv").config();
+const { Server } = require("socket.io");
 
 const axiosCustom = axios.default.create({
   baseURL: "https://bigflip.id/api",
   headers: {
     Authorization: process.env.FLIP_AUTH,
+  },
+});
+
+const io = new Server(strapi.server.httpServer, {
+  cors: {
+    // cors setup
+    origin: "https://seamless-test.vercel.app/",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
   },
 });
 
@@ -63,6 +74,12 @@ module.exports = createCoreController(
     },
     async callbackInquiry(ctx) {
       try {
+        io.on("connection", (socket) => {
+          console.log("a user is connected!");
+          socket.emit("check-bank", ctx.request.body, (error) => {
+            console.log(error);
+          });
+        });
         console.log(ctx.request.body);
       } catch (e) {
         console.log(e, "<<< E");
@@ -70,6 +87,12 @@ module.exports = createCoreController(
     },
     async callbackDisbursement(ctx) {
       try {
+        io.on("connection", (socket) => {
+          console.log("a user is connected!");
+          socket.emit("check-bank", ctx.request.body, (error) => {
+            console.log(error);
+          });
+        });
         console.log(ctx.request.body);
       } catch (e) {
         console.log(e, "<<< E");
