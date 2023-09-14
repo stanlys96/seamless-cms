@@ -82,14 +82,13 @@ module.exports = createCoreController(
       try {
         const theData = JSON.parse(ctx.request.body.data);
         console.log(theData);
-        const entry = await strapi.entityService.findMany(
-          "api::transaction-history:transaction-history",
-          {
-            filters: {
+        const entry = await strapi.db
+          .query("api::transaction-history.transaction-history")
+          .findOne({
+            where: {
               transaction_id: "451943357",
             },
-          }
-        );
+          });
         console.log(entry, "<<< entry");
       } catch (e) {
         console.log(e, "<<< E");
