@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "flip_transactions",
+  "info": {
+    "singularName": "flip-transaction",
+    "pluralName": "flip-transactions",
+    "displayName": "flip_transaction",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "account_number": {
+      "type": "string"
+    },
+    "account_name": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "bank_code": {
+      "type": "string"
+    },
+    "sender_bank": {
+      "type": "string"
+    },
+    "transaction_id": {
+      "type": "string"
+    },
+    "fee": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    }
+  }
+}
