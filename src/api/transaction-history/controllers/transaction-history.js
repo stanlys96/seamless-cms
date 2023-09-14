@@ -84,9 +84,12 @@ module.exports = createCoreController(
         console.log(theData);
         const entry = await strapi.db
           .query("api::transaction-history.transaction-history")
-          .findOne({
+          .update({
             where: {
               transaction_id: "451943357",
+            },
+            data: {
+              status: "Completed",
             },
           });
         console.log(entry, "<<< entry");
