@@ -56,6 +56,12 @@
     },
     "block_confirmation": {
       "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "transaction_id": {
+      "type": "string"
     }
   }
 }
