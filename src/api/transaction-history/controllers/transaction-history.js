@@ -72,12 +72,6 @@ module.exports = createCoreController(
     },
     async callbackInquiry(ctx) {
       try {
-        io.on("connection", (socket) => {
-          console.log("a user is connected!");
-          socket.emit("check-bank", ctx.request.body, (error) => {
-            console.log(error);
-          });
-        });
         console.log(ctx.request.body);
       } catch (e) {
         console.log(e, "<<< E");
@@ -85,12 +79,6 @@ module.exports = createCoreController(
     },
     async callbackDisbursement(ctx) {
       try {
-        io.on("connection", (socket) => {
-          console.log("a user is connected!");
-          socket.emit("check-bank", ctx.request.body, (error) => {
-            console.log(error);
-          });
-        });
         console.log(ctx.request.body);
       } catch (e) {
         console.log(e, "<<< E");
