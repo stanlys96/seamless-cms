@@ -21,8 +21,6 @@ const io = new Server(strapi.server.httpServer, {
     // cors setup
     origin: "https://seamless-test.vercel.app/",
     methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true,
   },
 });
 
