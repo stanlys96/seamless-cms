@@ -133,16 +133,19 @@ module.exports = createCoreController(
             },
           });
         if (!walletAccount) {
-          await strapi.db.query("api::wallet-account.wallet-account").create({
-            data: {
-              wallet_address: walletAddress,
-              bank_code: bankCode,
-              bank_account_name: bankAccountName,
-              bank_account_number: bankAccountNumber,
-              phone_number: phoneNumber,
-              latest: true,
-            },
-          });
+          await strapi.entityService.create(
+            "api::wallet-account.wallet-account",
+            {
+              data: {
+                wallet_address: walletAddress,
+                bank_code: bankCode,
+                bank_account_name: bankAccountName,
+                bank_account_number: bankAccountNumber,
+                phone_number: phoneNumber,
+                latest: true,
+              },
+            }
+          );
         }
         const walletAccounts = await strapi.db
           .query("api::wallet-account.wallet-account")
