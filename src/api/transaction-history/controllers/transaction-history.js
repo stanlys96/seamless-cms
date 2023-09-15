@@ -114,5 +114,78 @@ module.exports = createCoreController(
         console.log(e, "<<< E");
       }
     },
+    async checkWalletAccounts(ctx) {
+      try {
+        const walletAddress = ctx.request.body.wallet_address;
+        const bankCode = ctx.request.body.bank_code;
+        const bankAccountName = ctx.request.body.bank_account_name;
+        const bankAccountNumber = ctx.request.body.bank_account_number;
+        const walletAccount = await strapi.db
+          .query("api::wallet-account.wallet-account")
+          .findOne({
+            where: {
+              wallet_address: walletAddress,
+              bank_code: bankCode,
+              bank_account_name: bankAccountName,
+              bank_account_number: bankAccountNumber,
+            },
+          });
+        if (!walletAccount) {
+          await strapi.db.query("api::wallet-account.wallet-account").create({
+            data: {
+              wallet_address: walletAddress,
+              bank_code: bankCode,
+              bank_account_name: bankAccountName,
+              bank_account_number: bankAccountNumber,
+              latest: true,
+            },
+          });
+        }
+        const walletAccounts = await strapi.db
+          .query("api::wallet-account.wallet-account")
+          .findMany({
+            where: {
+              wallet_address: walletAddress,
+              bank_code: bankCode,
+            },
+          });
+        let theResult;
+        for (const theAccount of walletAccounts) {
+          if (
+            theAccount.bank_account_name !== bankAccountName &&
+            theAccount.bank_account_number !== bankAccountNumber
+          ) {
+            await strapi.db.query("api::wallet-account.wallet-account").update({
+              where: {
+                id: theAccount.id,
+              },
+              data: {
+                latest: false,
+              },
+              populate: {
+                category: true,
+              },
+            });
+          } else {
+            theResult = await strapi.db
+              .query("api::wallet-account.wallet-account")
+              .update({
+                where: {
+                  id: theAccount.id,
+                },
+                data: {
+                  latest: true,
+                },
+                populate: {
+                  category: true,
+                },
+              });
+          }
+        }
+        return theResult;
+      } catch (e) {
+        console.log(e, "<<<< E");
+      }
+    },
   })
 );

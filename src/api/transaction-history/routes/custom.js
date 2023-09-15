@@ -48,5 +48,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/check-wallet-accounts",
+      handler: "transaction-history.checkWalletAccounts",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
