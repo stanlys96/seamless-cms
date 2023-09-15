@@ -62,6 +62,9 @@
     },
     "transaction_id": {
       "type": "string"
+    },
+    "receipt": {
+      "type": "string"
     }
   }
 }
