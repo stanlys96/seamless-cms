@@ -116,12 +116,12 @@ module.exports = createCoreController(
     },
     async checkWalletAccounts(ctx) {
       try {
-        const parsedData = JSON.parse(ctx.request.body);
-        const walletAddress = parsedData.data.wallet_address;
-        const bankCode = parsedData.data.bank_code;
-        const bankAccountName = parsedData.data.bank_account_name;
-        const bankAccountNumber = parsedData.data.bank_account_number;
-        const phoneNumber = parsedData.data.phone_number;
+        const parsedData = ctx.request.body;
+        const walletAddress = parsedData.wallet_address;
+        const bankCode = parsedData.bank_code;
+        const bankAccountName = parsedData.bank_account_name;
+        const bankAccountNumber = parsedData.bank_account_number;
+        const phoneNumber = parsedData.phone_number;
         const walletAccount = await strapi.db
           .query("api::wallet-account.wallet-account")
           .findOne({
