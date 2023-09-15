@@ -120,6 +120,7 @@ module.exports = createCoreController(
         const bankCode = ctx.request.body.bank_code;
         const bankAccountName = ctx.request.body.bank_account_name;
         const bankAccountNumber = ctx.request.body.bank_account_number;
+        const phoneNumber = ctx.request.body.phone_number;
         const walletAccount = await strapi.db
           .query("api::wallet-account.wallet-account")
           .findOne({
@@ -137,6 +138,7 @@ module.exports = createCoreController(
               bank_code: bankCode,
               bank_account_name: bankAccountName,
               bank_account_number: bankAccountNumber,
+              phone_number: phoneNumber,
               latest: true,
             },
           });
@@ -175,6 +177,7 @@ module.exports = createCoreController(
                 },
                 data: {
                   latest: true,
+                  phone_number: phoneNumber,
                 },
                 populate: {
                   category: true,
