@@ -26,6 +26,9 @@
     },
     "phone_number": {
       "type": "string"
+    },
+    "latest": {
+      "type": "boolean"
     }
   }
 }
