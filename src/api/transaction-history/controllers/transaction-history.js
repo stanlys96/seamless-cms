@@ -79,7 +79,7 @@ module.exports = createCoreController(
     async callbackInquiry(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
-        console.log(theData);
+        return theData;
       } catch (e) {
         console.log(e, "<<< E");
       }
@@ -110,6 +110,7 @@ module.exports = createCoreController(
               },
             });
         }
+        return theData.receipt;
       } catch (e) {
         console.log(e, "<<< E");
       }
