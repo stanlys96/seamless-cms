@@ -65,6 +65,12 @@
     },
     "receipt": {
       "type": "string"
+    },
+    "fee": {
+      "type": "string"
+    },
+    "receive": {
+      "type": "string"
     }
   }
 }
