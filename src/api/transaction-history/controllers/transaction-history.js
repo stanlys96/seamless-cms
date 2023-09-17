@@ -3,11 +3,14 @@
 /**
  * transaction-history controller
  */
-
+const telegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
 require("dotenv").config();
 const { Server } = require("socket.io");
+const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
+
+const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
 
 const axiosCustom = axios.default.create({
   baseURL: "https://bigflip.id/api",
@@ -87,6 +90,7 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
+
         if (theData.receipt) {
           const entry = await strapi.db
             .query("api::transaction-history.transaction-history")
@@ -109,6 +113,10 @@ module.exports = createCoreController(
                 receipt: theData.receipt,
               },
             });
+          theTelegramBot.sendMessage(
+            1108175939,
+            `A user just finished a transaction! Receipt: ${theData.receipt}`
+          );
         }
         return theData.receipt;
       } catch (e) {
