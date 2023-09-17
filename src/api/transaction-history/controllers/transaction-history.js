@@ -90,7 +90,10 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
-
+        theTelegramBot.sendMessage(
+          1108175939,
+          `A user just finished a transaction! Receipt: ${theData.receipt}`
+        );
         if (theData.receipt) {
           const entry = await strapi.db
             .query("api::transaction-history.transaction-history")
@@ -113,10 +116,6 @@ module.exports = createCoreController(
                 receipt: theData.receipt,
               },
             });
-          theTelegramBot.sendMessage(
-            1108175939,
-            `A user just finished a transaction! Receipt: ${theData.receipt}`
-          );
         }
         return theData.receipt;
       } catch (e) {
