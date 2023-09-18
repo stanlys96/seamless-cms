@@ -9,6 +9,7 @@ const { createCoreController } = require("@strapi/strapi").factories;
 require("dotenv").config();
 const { Server } = require("socket.io");
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
+const { EmbedBuilder, WebhookClient } = require("discord.js");
 
 const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
 
@@ -18,6 +19,13 @@ const axiosCustom = axios.default.create({
     Authorization: process.env.FLIP_AUTH,
   },
 });
+
+const webhookClient = new WebhookClient({
+  id: "1152822861552173130",
+  token: "2jcpxs1JCeZdF-IQHnCTGisZ1bkG6RMEX4WdWlSjHS0udbMXySR9krppczRwVYenrlfo",
+});
+
+const embed = new EmbedBuilder().setTitle("Some Title").setColor(0x00ffff);
 
 const io = new Server(strapi.server.httpServer, {
   cors: {
@@ -92,6 +100,12 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
+        webhookClient.send({
+          content: "Webhook test",
+          username: "some-username",
+          avatarURL: "https://i.imgur.com/AfFp7pu.png",
+          embeds: [embed],
+        });
 
         if (theData.receipt) {
           const query = await strapi.db

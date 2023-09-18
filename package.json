@@ -19,6 +19,7 @@
     "@strapi/utils": "^4.12.4",
     "axios": "^1.5.0",
     "better-sqlite3": "8.5.0",
+    "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "koa-body": "^6.0.1",
     "node-telegram-bot-api": "^0.63.0",
