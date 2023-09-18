@@ -219,12 +219,5 @@ module.exports = createCoreController(
         console.log(e, "<<<< E");
       }
     },
-    async afterCreate(event) {
-      console.log(event);
-      theTelegramBot.sendMessage(
-        -4045247511,
-        `A user just started a transaction!`
-      );
-    },
   })
 );
