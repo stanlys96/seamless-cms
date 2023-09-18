@@ -112,6 +112,7 @@ module.exports = createCoreController(
           `A user just finished a transaction! Receipt: ${theData.receipt}`
         );
         if (theData.receipt) {
+          console.log(theData, "<<< theData");
           const query = await strapi.db
             .query("api::transaction-history.transaction-history")
             .findOne({
