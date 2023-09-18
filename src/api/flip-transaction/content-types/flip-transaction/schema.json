@@ -18,9 +18,6 @@
     "account_name": {
       "type": "string"
     },
-    "amount": {
-      "type": "string"
-    },
     "idempotency_key": {
       "type": "string"
     },
@@ -33,14 +30,17 @@
     "transaction_id": {
       "type": "string"
     },
-    "fee": {
-      "type": "string"
-    },
     "user_id": {
       "type": "string"
     },
     "receipt": {
       "type": "string"
+    },
+    "amount": {
+      "type": "float"
+    },
+    "fee": {
+      "type": "float"
     }
   }
 }
