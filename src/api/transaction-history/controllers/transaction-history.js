@@ -108,7 +108,7 @@ Blockchain Tx: ${query?.transaction_hash}
 Flip Receipt: ${theData.receipt}`,
             username: "Receipt Bot",
             avatarURL: "https://i.imgur.com/AfFp7pu.png",
-            embeds: [embed],
+            // embeds: [embed],
           });
           theTelegramBot.sendMessage(
             -4045247511,
