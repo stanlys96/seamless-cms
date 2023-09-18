@@ -102,7 +102,7 @@ module.exports = createCoreController(
                 transaction_id: theData.id,
               },
               data: {
-                status: "Completed",
+                status: "Flip Success",
                 receipt: theData.receipt,
               },
             });
