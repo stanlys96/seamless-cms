@@ -6,10 +6,9 @@
 const telegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
-require("dotenv").config();
-const { Server } = require("socket.io");
-const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
 const { EmbedBuilder, WebhookClient } = require("discord.js");
+require("dotenv").config();
+const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
 
 const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
 
@@ -21,18 +20,8 @@ const axiosCustom = axios.default.create({
 });
 
 const webhookClient = new WebhookClient({
-  id: "1152822861552173130",
-  token: "2jcpxs1JCeZdF-IQHnCTGisZ1bkG6RMEX4WdWlSjHS0udbMXySR9krppczRwVYenrlfo",
-});
-
-const embed = new EmbedBuilder().setTitle("Some Title").setColor(0x00ffff);
-
-const io = new Server(strapi.server.httpServer, {
-  cors: {
-    // cors setup
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
+  id: process.env.DISCORD_BOT_RECEIPT_ID,
+  token: process.env.DISCORD_BOT_RECEIPT_TOKEN,
 });
 
 module.exports = createCoreController(
@@ -100,12 +89,6 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
-        webhookClient.send({
-          content: "Webhook test",
-          username: "some-username",
-          avatarURL: "https://i.imgur.com/AfFp7pu.png",
-          embeds: [embed],
-        });
 
         if (theData.receipt) {
           const query = await strapi.db
@@ -115,6 +98,18 @@ module.exports = createCoreController(
                 transaction_id: theData.id,
               },
             });
+          const embed = new EmbedBuilder()
+            .setTitle("Receipt")
+            .setColor(0x00ffff);
+          webhookClient.send({
+            content: `${query?.wallet_address} just finished a transaction!
+Tx ID: ${query?.id}
+Blockchain Tx: ${query?.transaction_hash} 
+Flip Receipt: ${theData.receipt}`,
+            username: "Receipt Bot",
+            avatarURL: "https://i.imgur.com/AfFp7pu.png",
+            embeds: [embed],
+          });
           theTelegramBot.sendMessage(
             -4045247511,
             `${query?.wallet_address} just finished a transaction!
