@@ -71,6 +71,12 @@
     },
     "receive": {
       "type": "string"
+    },
+    "start_progress": {
+      "type": "datetime"
+    },
+    "end_progress": {
+      "type": "datetime"
     }
   }
 }
