@@ -103,7 +103,10 @@ module.exports = createCoreController(
             });
           theTelegramBot.sendMessage(
             -4045247511,
-            `${query?.wallet_address} just finished a transaction! Tx ID: ${query?.id}. Receipt: ${theData.receipt}`
+            `${query?.wallet_address} just finished a transaction! 
+            Tx ID: ${query?.id}
+            Blockchain Tx: ${query?.transaction_hash} 
+            Flip Receipt: ${theData.receipt}`
           );
           const endDate = new Date(theData?.time_served ?? Date.now());
           const startDate = new Date(query?.start_progress ?? Date.now());

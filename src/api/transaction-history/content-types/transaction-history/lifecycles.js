@@ -1,6 +1,5 @@
 const telegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
-const { Server } = require("socket.io");
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
 
 const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
