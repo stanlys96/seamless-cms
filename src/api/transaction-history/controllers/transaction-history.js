@@ -92,10 +92,7 @@ module.exports = createCoreController(
     async callbackDisbursement(ctx) {
       try {
         const theData = JSON.parse(ctx.request.body.data);
-        theTelegramBot.sendMessage(
-          -4045247511,
-          `A user just finished a transaction! Receipt: ${theData.receipt}`
-        );
+
         if (theData.receipt) {
           const query = await strapi.db
             .query("api::transaction-history.transaction-history")
@@ -104,6 +101,10 @@ module.exports = createCoreController(
                 transaction_id: theData.id,
               },
             });
+          theTelegramBot.sendMessage(
+            -4045247511,
+            `${query?.wallet_address} just finished a transaction! Receipt: ${theData.receipt}`
+          );
           const endDate = new Date(theData?.time_served ?? Date.now());
           const startDate = new Date(query?.start_progress ?? Date.now());
           const progress_time =
@@ -217,6 +218,13 @@ module.exports = createCoreController(
       } catch (e) {
         console.log(e, "<<<< E");
       }
+    },
+    async afterCreate(event) {
+      console.log(event);
+      theTelegramBot.sendMessage(
+        -4045247511,
+        `A user just started a transaction!`
+      );
     },
   })
 );
