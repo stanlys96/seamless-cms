@@ -95,6 +95,13 @@ module.exports = createCoreController(
           `A user just finished a transaction! Receipt: ${theData.receipt}`
         );
         if (theData.receipt) {
+          const query = await strapi.db
+            .query("api::transaction-history.transaction-history")
+            .findOne({
+              where: {
+                transaction_id: theData.id,
+              },
+            });
           const date = new Date();
           date.setHours(date.getHours() + 7);
           const dateStr =
@@ -110,6 +117,12 @@ module.exports = createCoreController(
             ":" +
             ("00" + date.getSeconds()).slice(-2) +
             ("." + date.getMilliseconds()).slice(-4);
+
+          const startDate = new Date(query?.start_progress ?? Date.now());
+          const endDate = new Date(dateStr);
+          const progress_time =
+            (endDate.getTime() - startDate.getTime()) / 1000;
+
           const entry = await strapi.db
             .query("api::transaction-history.transaction-history")
             .update({
@@ -120,6 +133,7 @@ module.exports = createCoreController(
                 status: "Flip Success",
                 receipt: theData.receipt,
                 end_progress: dateStr,
+                progress_time: progress_time,
               },
             });
           const flipEntry = await strapi.db
