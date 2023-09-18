@@ -8,10 +8,12 @@ const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
 module.exports = {
   async afterCreate(event) {
     const { params, result } = event;
-    theTelegramBot.sendMessage(
-      -4045247511,
-      `${params?.data?.wallet_address} just started a transaction!`
-    );
+    if (params?.data?.status === "Blockchain") {
+      theTelegramBot.sendMessage(
+        -4045247511,
+        `${result?.wallet_address} just started a transaction!`
+      );
+    }
   },
   async afterUpdate(event) {
     const { params, result } = event;
