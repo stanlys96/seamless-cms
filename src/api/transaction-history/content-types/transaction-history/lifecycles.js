@@ -7,10 +7,13 @@ const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
 
 module.exports = {
   async afterCreate(event) {
-    console.log(event);
+    console.log(event, "<<< create");
     theTelegramBot.sendMessage(
       -4045247511,
       `A user just started a transaction!`
     );
+  },
+  async afterUpdate(event) {
+    console.log(event, "<<< update");
   },
 };
