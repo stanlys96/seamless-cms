@@ -93,7 +93,7 @@ module.exports = createCoreController(
       try {
         const theData = JSON.parse(ctx.request.body.data);
         theTelegramBot.sendMessage(
-          1108175939,
+          4045247511,
           `A user just finished a transaction! Receipt: ${theData.receipt}`
         );
         if (theData.receipt) {
