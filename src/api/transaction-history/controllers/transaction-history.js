@@ -88,23 +88,6 @@ module.exports = createCoreController(
       }
     },
     async callbackDisbursement(ctx) {
-      const date = new Date();
-      date.setHours(date.getHours() + 7);
-      const dateStr =
-        date.getFullYear() +
-        "-" +
-        ("00" + (date.getMonth() + 1)).slice(-2) +
-        "-" +
-        ("00" + date.getDate()).slice(-2) +
-        " " +
-        ("00" + date.getHours()).slice(-2) +
-        ":" +
-        ("00" + date.getMinutes()).slice(-2) +
-        ":" +
-        ("00" + date.getSeconds()).slice(-2) +
-        ("." + date.getMilliseconds()).slice(-4);
-      const endDate = new Date(dateStr);
-
       try {
         const theData = JSON.parse(ctx.request.body.data);
         theTelegramBot.sendMessage(
@@ -120,7 +103,7 @@ module.exports = createCoreController(
                 transaction_id: theData.id,
               },
             });
-
+          const endDate = new Date(theData?.time_served ?? Date.now());
           const startDate = new Date(query?.start_progress ?? Date.now());
           const progress_time =
             (endDate.getTime() - startDate.getTime()) / 1000;
@@ -134,7 +117,7 @@ module.exports = createCoreController(
               data: {
                 status: "Flip Success",
                 receipt: theData.receipt,
-                end_progress: dateStr,
+                end_progress: theData.time_served,
                 progress_time: progress_time,
               },
             });
