@@ -96,6 +96,7 @@ module.exports = createCoreController(
         );
         if (theData.receipt) {
           const date = new Date();
+          date.setHours(date.getHours() + 7);
           const dateStr =
             date.getFullYear() +
             "-" +
