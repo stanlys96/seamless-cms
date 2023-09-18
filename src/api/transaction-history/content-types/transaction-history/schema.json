@@ -33,16 +33,7 @@
     "bank_account_name": {
       "type": "string"
     },
-    "gas_price": {
-      "type": "string"
-    },
     "phone_number": {
-      "type": "string"
-    },
-    "token_value": {
-      "type": "string"
-    },
-    "idr_value": {
       "type": "string"
     },
     "transaction_success": {
@@ -63,12 +54,6 @@
     "receipt": {
       "type": "string"
     },
-    "fee": {
-      "type": "string"
-    },
-    "receive": {
-      "type": "string"
-    },
     "status": {
       "type": "enumeration",
       "enum": [
@@ -87,6 +72,21 @@
       "type": "string"
     },
     "progress_time": {
+      "type": "float"
+    },
+    "idr_value": {
+      "type": "float"
+    },
+    "token_value": {
+      "type": "float"
+    },
+    "gas_price": {
+      "type": "float"
+    },
+    "fee": {
+      "type": "float"
+    },
+    "receive": {
       "type": "float"
     }
   }
