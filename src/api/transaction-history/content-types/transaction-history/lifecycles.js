@@ -10,8 +10,8 @@ module.exports = {
     if (params?.data?.status === "Blockchain") {
       theTelegramBot.sendMessage(
         -4045247511,
-        `${result?.wallet_address} just started a transaction! 
-        Tx ID: ${result?.id}`
+        `${result?.wallet_address} just started a transaction!
+Tx ID: ${result?.id}`
       );
     }
   },
@@ -20,8 +20,8 @@ module.exports = {
     if (params?.data?.status === "Blockchain") {
       theTelegramBot.sendMessage(
         -4045247511,
-        `${result?.wallet_address} just started a transaction! 
-        Tx ID: ${result?.id}`
+        `${result?.wallet_address} just started a transaction!
+Tx ID: ${result?.id}`
       );
     }
   },
