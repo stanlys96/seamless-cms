@@ -81,10 +81,10 @@
       ]
     },
     "start_progress": {
-      "type": "datetime"
+      "type": "string"
     },
     "end_progress": {
-      "type": "datetime"
+      "type": "string"
     }
   }
 }
