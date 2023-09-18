@@ -59,7 +59,7 @@ module.exports = createCoreController(
     },
     async createDisbursement(ctx) {
       try {
-        const { account_number, bank_code, amount, idempotency_key } =
+        const { account_number, bank_code, amount, idempotency_key, remark } =
           ctx.request.body;
         const disburse = await axiosCustom.post(
           "/v3/disbursement",
@@ -67,6 +67,7 @@ module.exports = createCoreController(
             account_number,
             bank_code,
             amount,
+            remark,
           },
           {
             headers: {
@@ -95,7 +96,6 @@ module.exports = createCoreController(
           `A user just finished a transaction! Receipt: ${theData.receipt}`
         );
         if (theData.receipt) {
-          console.log(theData, "<<< theData");
           const query = await strapi.db
             .query("api::transaction-history.transaction-history")
             .findOne({
