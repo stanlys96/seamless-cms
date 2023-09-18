@@ -23,7 +23,7 @@ module.exports = {
 Tx ID: ${result?.id}`,
         username: "Transaction Bot",
         avatarURL: "https://i.imgur.com/AfFp7pu.png",
-        embeds: [embed],
+        // embeds: [embed],
       });
       theTelegramBot.sendMessage(
         -4045247511,
