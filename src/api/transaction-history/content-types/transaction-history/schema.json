@@ -85,6 +85,9 @@
     },
     "end_progress": {
       "type": "string"
+    },
+    "progress_time": {
+      "type": "float"
     }
   }
 }
