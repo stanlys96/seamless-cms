@@ -104,6 +104,7 @@ module.exports = createCoreController(
               data: {
                 status: "Flip Success",
                 receipt: theData.receipt,
+                end_progress: Date.now(),
               },
             });
           const flipEntry = await strapi.db
