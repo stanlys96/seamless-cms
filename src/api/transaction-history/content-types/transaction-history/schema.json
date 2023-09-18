@@ -30,9 +30,6 @@
     "transaction_hash": {
       "type": "string"
     },
-    "status": {
-      "type": "string"
-    },
     "bank_account_name": {
       "type": "string"
     },
@@ -71,6 +68,23 @@
     },
     "receive": {
       "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Approval",
+        "Approval Success",
+        "Blockchain",
+        "Blockchain Success",
+        "Flip",
+        "Flip Success"
+      ]
+    },
+    "start_progress": {
+      "type": "datetime"
+    },
+    "end_progress": {
+      "type": "datetime"
     }
   }
 }
