@@ -101,22 +101,6 @@ module.exports = createCoreController(
           const embed = new EmbedBuilder()
             .setTitle("Receipt")
             .setColor(0x00ffff);
-          webhookClient.send({
-            content: `${query?.wallet_address} just finished a transaction!
-Tx ID: ${query?.id}
-Blockchain Tx: ${query?.transaction_hash} 
-Flip Receipt: ${theData.receipt}`,
-            username: "Receipt Bot",
-            avatarURL: "https://i.imgur.com/AfFp7pu.png",
-            // embeds: [embed],
-          });
-          theTelegramBot.sendMessage(
-            -4045247511,
-            `${query?.wallet_address} just finished a transaction!
-Tx ID: ${query?.id}
-Blockchain Tx: ${query?.transaction_hash} 
-Flip Receipt: ${theData.receipt}`
-          );
           const endDate = new Date(theData?.time_served ?? Date.now());
           const startDate = new Date(query?.start_progress ?? Date.now());
           const progress_time =
@@ -135,6 +119,24 @@ Flip Receipt: ${theData.receipt}`
                 progress_time: progress_time,
               },
             });
+          webhookClient.send({
+            content: `${query?.wallet_address} just finished a transaction!
+Tx ID: ${query?.id}
+Blockchain Tx: ${query?.transaction_hash} 
+Flip Receipt: ${theData.receipt}
+Progress Time: ${progress_time} seconds`,
+            username: "Receipt Bot",
+            avatarURL: "https://i.imgur.com/AfFp7pu.png",
+            // embeds: [embed],
+          });
+          theTelegramBot.sendMessage(
+            -4045247511,
+            `${query?.wallet_address} just finished a transaction!
+Tx ID: ${query?.id}
+Blockchain Tx: ${query?.transaction_hash} 
+Flip Receipt: ${theData.receipt}
+Progress Time: ${progress_time} seconds`
+          );
           const flipEntry = await strapi.db
             .query("api::flip-transaction.flip-transaction")
             .update({
