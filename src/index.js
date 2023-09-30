@@ -93,7 +93,7 @@ module.exports = {
 
             const result = disburse.data;
 
-            await strapi.db
+            strapi.db
               .query("api::transaction-history.transaction-history")
               .update({
                 where: {
@@ -104,6 +104,20 @@ module.exports = {
                   transaction_id: result.id,
                 },
               });
+            strapi.db.query("api::flip-transaction.flip-transaction").create({
+              data: {
+                account_number: result.account_number,
+                amount: result.amount,
+                account_name: result.recipient_name,
+                idempotency_key: result.idempotency_key,
+                bank_code: result.bank_code,
+                sender_bank: result.sender_bank,
+                transaction_id: result.id.toString(),
+                fee: result.fee,
+                user_id: result.user_id.toString(),
+                receipt: "",
+              },
+            });
           }
         } catch (e) {
           console.log(e, "<<< ERROR");
