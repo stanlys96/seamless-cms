@@ -103,6 +103,7 @@ module.exports = {
           console.log(theEventLog, "<<< EVENT LOG");
           console.log(await name.getTransactionReceipt(), "<<<< DECODE");
           console.log(await name.getTransaction(), "<<<< DECODE");
+          console.log(await name.decode(), "<<<< DECODE");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
