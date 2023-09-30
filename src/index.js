@@ -5,6 +5,7 @@ require("dotenv").config();
 const seamlessAbi = require("./seamless-abi.json");
 const { chainData } = require("./helper");
 const axios = require("axios");
+const { formatEther } = require("@ethersproject/units");
 
 const axiosCustom = axios.default.create({
   baseURL: "https://bigflip.id/api",
@@ -122,7 +123,7 @@ module.exports = {
                 },
                 data: {
                   status: "Blockchain Success",
-                  gas_price: parseFloat(tx.gasPrice.toString()),
+                  gas_price: parseFloat(formatEther(tx.gasPrice)),
                   block_confirmation: tx.confirmations.toString(),
                 },
               });
