@@ -102,6 +102,7 @@ module.exports = {
           const theEventLog = contractInterface.parseLog({ data, topics });
           console.log(theEventLog, "<<< EVENT LOG");
           console.log(await name.getTransactionReceipt(), "<<<< DECODE");
+          console.log(await name.getTransaction(), "<<<< DECODE");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
