@@ -99,13 +99,9 @@ module.exports = {
           // console.log(contractInterface.getEvent("TokenSent"));
           const data = name.data;
           const topics = name.topics;
-          const theEventLog = contractInterface.decodeEventLog(
-            "TokenSent",
-            data,
-            topics
-          );
+          const theEventLog = contractInterface.parseLog({ data, topics });
           console.log(theEventLog, "<<< EVENT LOG");
-          console.log(name.decode(), "<<<< DECODE");
+          console.log(name.getTransactionReceipt(), "<<<< DECODE");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
