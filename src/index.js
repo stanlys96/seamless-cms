@@ -1,5 +1,6 @@
 "use strict";
 const { ethers } = require("ethers");
+const Web3 = require("web3");
 require("dotenv").config();
 const seamlessAbi = require("./seamless-abi.json");
 
@@ -71,9 +72,6 @@ module.exports = {
       },
     ];
     for (let theContract of contracts) {
-      let option = {
-        batchMaxCount: 1,
-      };
       const currentProvider = new ethers.providers.JsonRpcProvider(
         theContract.rpcUrl
       );
@@ -87,13 +85,17 @@ module.exports = {
         currentWallet
       );
 
+      const contractInterface = new ethers.utils.Interface(seamlessAbi);
+
       currentContract.on("TokenSent", async (a) => {
         try {
           console.log(a, `1 <<<< ${theContract.name}`);
           console.log(a.toString(), "2 <<<< parsed");
           console.log(JSON.stringify(a), "3 <<< ????");
-          console.log(a.toString()[0], "4 <<< OBJECT???");
           console.log(JSON.stringify(a.toString()), "5 <<< ??? !!!!");
+          console.log(JSON.parse(a.toString()), "<<< JSON PARSED!!");
+          const theEvent = contractInterface.getEvent(a);
+          console.log(theEvent, "<<<< the event!");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
