@@ -94,8 +94,8 @@ module.exports = {
           console.log(JSON.stringify(a), "3 <<< ????");
           console.log(JSON.stringify(a.toString()), "5 <<< ??? !!!!");
           const jsonParsed = JSON.parse(JSON.stringify(a.toString()));
-
-          const theEvent = contractInterface.getEvent(jsonParsed.hash);
+          console.log(jsonParsed.hash);
+          const theEvent = contractInterface.getEvent(a.hash);
           console.log(theEvent, "<<<< the event!");
         } catch (e) {
           console.log(e, "<<< ERROR");
