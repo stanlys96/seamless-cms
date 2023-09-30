@@ -127,7 +127,7 @@ module.exports = {
                   block_confirmation: tx.confirmations.toString(),
                 },
               });
-            await tx.wait(5);
+            await tx.wait(3);
             const disburse = await axiosCustom.post(
               "/v3/disbursement",
               {
