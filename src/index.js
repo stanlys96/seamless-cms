@@ -101,7 +101,7 @@ module.exports = {
           const topics = name.topics;
           const theEventLog = contractInterface.parseLog({ data, topics });
           console.log(theEventLog, "<<< EVENT LOG");
-          console.log(name.getTransactionReceipt(), "<<<< DECODE");
+          console.log(await name.getTransactionReceipt(), "<<<< DECODE");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
