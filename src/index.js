@@ -42,7 +42,7 @@ module.exports = {
       {
         id: 4,
         name: "Binance",
-        rpcUrl: process.env.BINANCE_RPC_URL,
+        rpcUrl: process.env.BSC_RPC_URL,
         contract: process.env.BINANCE_CUSTOM_CONTRACT,
       },
       {
@@ -71,7 +71,12 @@ module.exports = {
       },
     ];
     for (let theContract of contracts) {
-      const currentProvider = new ethers.JsonRpcProvider(theContract.rpcUrl);
+      let option = {
+        batchMaxCount: 1,
+      };
+      const currentProvider = new ethers.providers.JsonRpcProvider(
+        theContract.rpcUrl
+      );
       const currentWallet = new ethers.Wallet(
         process.env.PRIVATE,
         currentProvider
