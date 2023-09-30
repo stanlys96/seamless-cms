@@ -89,7 +89,7 @@ module.exports = {
 
       currentContract.on("TokenSent", async (a) => {
         console.log(a, `<<<< ${theContract.name}`);
-        console.log(parseInt(a), "<<<< parsed");
+        console.log(a.toString(), "<<<< parsed");
       });
     }
   },
