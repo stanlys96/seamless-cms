@@ -109,6 +109,7 @@ module.exports = {
           const theEventLog = contractInterface.parseLog({ data, topics });
           console.log(theEventLog, "<<< EVENT LOG");
           console.log(await theEventLog.args[0].constructor());
+          console.log(await theEventLog.eventFragment.constructor());
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
