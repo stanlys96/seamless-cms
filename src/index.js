@@ -4,6 +4,14 @@ const Web3 = require("web3");
 require("dotenv").config();
 const seamlessAbi = require("./seamless-abi.json");
 const { chainData } = require("./helper");
+const axios = require("axios");
+
+const axiosCustom = axios.default.create({
+  baseURL: "https://bigflip.id/api",
+  headers: {
+    Authorization: process.env.FLIP_AUTH,
+  },
+});
 
 module.exports = {
   /**
@@ -91,6 +99,7 @@ module.exports = {
       currentContract.on("TokenSent", async (_name, name) => {
         try {
           const tx = await name.getTransaction();
+          console.log(tx, "<<< tx");
           const hash = tx.hash;
           const chainId = tx.chainId;
           const query = await strapi.db
@@ -103,7 +112,33 @@ module.exports = {
                   ).transactionUrl + hash,
               },
             });
-          console.log(query, "<<<<<");
+          if (query) {
+            strapi.db
+              .query("api::transaction-history.transaction-history")
+              .update({
+                where: {
+                  id: query.id,
+                },
+                data: {
+                  status: "Flip",
+                },
+              });
+
+            const disburse = await axiosCustom.post(
+              "/v3/disbursement",
+              {
+                account_number: query.bank_account_number,
+                bank_code: query.bank_name.toLowerCase(),
+                amount: query.receive,
+                remark: "Seamless Finance",
+              },
+              {
+                headers: {
+                  "idempotency-key": query.idempotency_key,
+                },
+              }
+            );
+          }
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
