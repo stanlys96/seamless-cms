@@ -92,7 +92,8 @@ module.exports = {
           console.log(a, `1 <<<< ${theContract.name}`);
           console.log(a.toString(), "2 <<<< parsed");
           console.log(JSON.stringify(a), "3 <<< ????");
-          console.log(JSON.stringify(a.toString()), "4 <<< ??? !!!!");
+          console.log(a.toString()[0], "4 <<< OBJECT???");
+          console.log(JSON.stringify(a.toString()), "5 <<< ??? !!!!");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
