@@ -99,6 +99,7 @@ module.exports = {
       currentContract.on("TokenSent", async (_name, name) => {
         try {
           const tx = await name.getTransaction();
+
           console.log(tx, "<<< tx");
           const hash = tx.hash;
           const chainId = tx.chainId;
@@ -113,17 +114,19 @@ module.exports = {
               },
             });
           if (query) {
-            strapi.db
+            await strapi.db
               .query("api::transaction-history.transaction-history")
               .update({
                 where: {
                   id: query.id,
                 },
                 data: {
-                  status: "Flip",
+                  status: "Blockchain Success",
+                  gas_price: parseFloat(tx.gasPrice.toString()),
+                  block_confirmation: tx.confirmations.toString(),
                 },
               });
-
+            await tx.wait(5);
             const disburse = await axiosCustom.post(
               "/v3/disbursement",
               {
@@ -138,6 +141,20 @@ module.exports = {
                 },
               }
             );
+
+            const result = disburse.data;
+
+            await strapi.db
+              .query("api::transaction-history.transaction-history")
+              .update({
+                where: {
+                  id: query.id,
+                },
+                data: {
+                  status: "Flip",
+                  transaction_id: result.id,
+                },
+              });
           }
         } catch (e) {
           console.log(e, "<<< ERROR");
