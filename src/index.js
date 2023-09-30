@@ -62,7 +62,7 @@ module.exports = {
               },
             });
           if (query) {
-            await strapi.db
+            strapi.db
               .query("api::transaction-history.transaction-history")
               .update({
                 where: {
