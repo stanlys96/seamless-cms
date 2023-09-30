@@ -88,8 +88,14 @@ module.exports = {
       );
 
       currentContract.on("TokenSent", async (a) => {
-        console.log(a, `<<<< ${theContract.name}`);
-        console.log(a.toString(), "<<<< parsed");
+        try {
+          console.log(a, `1 <<<< ${theContract.name}`);
+          console.log(a.toString(), "2 <<<< parsed");
+          console.log(JSON.stringify(a), "3 <<< ????");
+          console.log(JSON.stringify(a.toString()), "4 <<< ??? !!!!");
+        } catch (e) {
+          console.log(e, "<<< ERROR");
+        }
       });
     }
   },
