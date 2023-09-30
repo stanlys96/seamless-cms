@@ -94,11 +94,15 @@ module.exports = {
           console.log(JSON.stringify(a), "3 <<< ????");
           console.log(JSON.stringify(a.toString()), "5 <<< ??? !!!!");
           console.log(a.hash);
-          console.log(contractInterface.getEvent("TokenSent"));
+          // console.log(contractInterface.getEvent("TokenSent"));
+          console.log(
+            contractInterface.encodeFilterTopics("TokenSent", a.hash)
+          );
           const theEvent = contractInterface.encodeFunctionData(
             "TokenSent",
             a.hash
           );
+
           console.log(theEvent, "<<<< the event!");
         } catch (e) {
           console.log(e, "<<< ERROR");
