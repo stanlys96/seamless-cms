@@ -97,13 +97,17 @@ module.exports = {
           console.log(JSON.stringify(_name.toString()), "5 <<< ??? !!!!");
           console.log(_name.hash);
           // console.log(contractInterface.getEvent("TokenSent"));
-          const data = name.data;
-          const topics = name.topics;
+
+          const txReceipt = await name.getTransactionReceipt();
+          const tx = await name.getTransaction();
+          console.log(txReceipt);
+          console.log(tx);
+          const topics = txReceipt.logs[0].topics;
+          const data = tx.data;
+          console.log(topics);
+          console.log(data);
           const theEventLog = contractInterface.parseLog({ data, topics });
           console.log(theEventLog, "<<< EVENT LOG");
-          console.log(await name.getTransactionReceipt(), "<<<< DECODE");
-          console.log(await name.getTransaction(), "<<<< DECODE");
-          console.log(await name.decode(), "<<<< DECODE");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
