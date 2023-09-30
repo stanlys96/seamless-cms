@@ -46,12 +46,6 @@
         "internalType": "string",
         "name": "name",
         "type": "string"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint8",
-        "name": "txId",
-        "type": "uint8"
       }
     ],
     "name": "TokenSent",
@@ -72,10 +66,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "uint8", "name": "txId", "type": "uint8" }
-    ],
+    "inputs": [{ "internalType": "string", "name": "_name", "type": "string" }],
     "name": "transfer",
     "outputs": [],
     "stateMutability": "payable",
@@ -93,8 +84,7 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_token", "type": "address" },
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "uint8", "name": "txId", "type": "uint8" }
+      { "internalType": "string", "name": "_name", "type": "string" }
     ],
     "name": "transfer_erc20",
     "outputs": [],
