@@ -93,7 +93,10 @@ module.exports = {
           console.log(a.toString(), "2 <<<< parsed");
           console.log(JSON.stringify(a), "3 <<< ????");
           console.log(JSON.stringify(a.toString()), "5 <<< ??? !!!!");
-          console.log(JSON.parse(a.toString()), "<<< JSON PARSED!!");
+          console.log(
+            JSON.parse(JSON.stringify(a.toString())),
+            "<<< JSON PARSED!!"
+          );
           const theEvent = contractInterface.getEvent(a);
           console.log(theEvent, "<<<< the event!");
         } catch (e) {
