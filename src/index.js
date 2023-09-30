@@ -93,8 +93,6 @@ module.exports = {
           console.log(a.toString(), "2 <<<< parsed");
           console.log(JSON.stringify(a), "3 <<< ????");
           console.log(JSON.stringify(a.toString()), "5 <<< ??? !!!!");
-          const jsonParsed = JSON.parse(JSON.stringify(a.toString()));
-          console.log(jsonParsed.hash);
           console.log(a.hash);
           console.log(contractInterface.getEvent("TokenSent"));
           const theEvent = contractInterface.getEvent(a.hash);
