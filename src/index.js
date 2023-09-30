@@ -87,24 +87,25 @@ module.exports = {
 
       const contractInterface = new ethers.utils.Interface(seamlessAbi);
 
-      currentContract.on("TokenSent", async (_name, name) => {
+      currentContract.on("TokenSent", async (_name, name, name3) => {
         try {
           console.log(_name, `1 <<<< ${theContract.name}`);
           console.log(name, "<<< NAME");
+          console.log(name3, "<<< ???");
           console.log(_name.toString(), "2 <<<< parsed");
           console.log(JSON.stringify(_name), "3 <<< ????");
           console.log(JSON.stringify(_name.toString()), "5 <<< ??? !!!!");
           console.log(_name.hash);
           // console.log(contractInterface.getEvent("TokenSent"));
-          console.log(
-            contractInterface.encodeFilterTopics("TokenSent", _name.hash)
-          );
-          const theEvent = contractInterface.encodeFunctionData(
+          const data = name.data;
+          const topics = name.topics;
+          const theEventLog = contractInterface.decodeEventLog(
             "TokenSent",
-            _name.hash
+            data,
+            topics
           );
-
-          console.log(theEvent, "<<<< the event!");
+          console.log(theEventLog, "<<< EVENT LOG");
+          console.log(name.decode(), "<<<< DECODE");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
