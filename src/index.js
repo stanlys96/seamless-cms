@@ -3,6 +3,7 @@ const { ethers } = require("ethers");
 const Web3 = require("web3");
 require("dotenv").config();
 const seamlessAbi = require("./seamless-abi.json");
+const { chainData } = require("./helper");
 
 module.exports = {
   /**
@@ -20,7 +21,7 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {
+  bootstrap({ strapi }) {
     const contracts = [
       {
         id: 1,
@@ -87,29 +88,22 @@ module.exports = {
 
       const contractInterface = new ethers.utils.Interface(seamlessAbi);
 
-      currentContract.on("TokenSent", async (_name, name, name3) => {
+      currentContract.on("TokenSent", async (_name, name) => {
         try {
-          console.log(_name, `1 <<<< ${theContract.name}`);
-          console.log(name, "<<< NAME");
-          console.log(name3, "<<< ???");
-          console.log(_name.toString(), "2 <<<< parsed");
-          console.log(JSON.stringify(_name), "3 <<< ????");
-          console.log(JSON.stringify(_name.toString()), "5 <<< ??? !!!!");
-          console.log(_name.hash);
-          // console.log(contractInterface.getEvent("TokenSent"));
-
-          const txReceipt = await name.getTransactionReceipt();
           const tx = await name.getTransaction();
-          console.log(txReceipt);
-          console.log(tx);
-          const topics = txReceipt.logs[0].topics;
-          const data = tx.data;
-          console.log(topics);
-          console.log(data);
-          const theEventLog = contractInterface.parseLog({ data, topics });
-          console.log(theEventLog, "<<< EVENT LOG");
-          console.log(await theEventLog.args[0].constructor());
-          console.log(await theEventLog.eventFragment.constructor());
+          const hash = tx.hash;
+          const chainId = tx.chainId;
+          const query = await strapi.db
+            .query("api::transaction-history.transaction-history")
+            .findOne({
+              where: {
+                transaction_hash:
+                  chainData.find(
+                    (data) => data.chainId.toString() === chainId.toString()
+                  ).transactionUrl + hash,
+              },
+            });
+          console.log(query, "<<<<<");
         } catch (e) {
           console.log(e, "<<< ERROR");
         }
