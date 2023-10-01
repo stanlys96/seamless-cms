@@ -46,13 +46,28 @@ module.exports = {
 
       currentContract.on("TokenSent", async (_name, name) => {
         try {
-          console.log(name, "<<< name");
           const tx = await name.getTransaction();
           const transaction = await name.getTransactionReceipt();
-          console.log(tx, "<<< tx");
-          console.log(transaction, "<<< transaction");
+
           const hash = tx.hash;
           const chainId = tx.chainId;
+          if (transaction.status.toString() !== "1") {
+            strapi.db
+              .query("api::transaction-history.transaction-history")
+              .update({
+                where: {
+                  transaction_hash:
+                    chainData.find(
+                      (data) => data.chainId.toString() === chainId.toString()
+                    ).transactionUrl + hash,
+                },
+                data: {
+                  status: "Blockchain Error",
+                },
+              });
+            return;
+          }
+
           const query = await strapi.db
             .query("api::transaction-history.transaction-history")
             .findOne({
