@@ -46,6 +46,7 @@ module.exports = {
 
       currentContract.on("TokenSent", async (_name, name) => {
         try {
+          console.log(name, "<<< name");
           const tx = await name.getTransaction();
 
           console.log(tx, "<<< tx");
