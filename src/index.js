@@ -48,8 +48,9 @@ module.exports = {
         try {
           console.log(name, "<<< name");
           const tx = await name.getTransaction();
-
+          const transaction = await name.getTransactionReceipt();
           console.log(tx, "<<< tx");
+          console.log(transaction, "<<< transaction");
           const hash = tx.hash;
           const chainId = tx.chainId;
           const query = await strapi.db
