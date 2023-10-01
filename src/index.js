@@ -51,7 +51,7 @@ module.exports = {
 
           const hash = tx.hash;
           const chainId = tx.chainId;
-          if (transaction.status.toString() !== "1") {
+          if (transaction.status.toString() !== "0") {
             strapi.db
               .query("api::transaction-history.transaction-history")
               .update({
