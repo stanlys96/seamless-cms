@@ -61,8 +61,10 @@
         "Approval Success",
         "Blockchain",
         "Blockchain Success",
+        "Blockchain Error",
         "Flip",
-        "Flip Success"
+        "Flip Success",
+        "Flip Error"
       ]
     },
     "start_progress": {
