@@ -46,9 +46,12 @@ module.exports = {
 
       currentContract.on("TokenSent", async (_name, name) => {
         try {
+          console.log(_name, "<<<< _name");
+          console.log(name, "<<<< second name");
           const tx = await name.getTransaction();
           const transaction = await name.getTransactionReceipt();
-
+          console.log(tx, "<<< tx");
+          console.log(transaction, "<<< transaction");
           const hash = tx.hash;
           const chainId = tx.chainId;
           if (transaction.status.toString() !== "1") {
