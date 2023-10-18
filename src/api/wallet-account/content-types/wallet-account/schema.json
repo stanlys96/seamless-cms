@@ -29,6 +29,12 @@
     },
     "latest": {
       "type": "boolean"
+    },
+    "referral_codes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::referral-code.referral-code",
+      "mappedBy": "wallet_account"
     }
   }
 }
