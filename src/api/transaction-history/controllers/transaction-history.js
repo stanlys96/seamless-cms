@@ -155,21 +155,21 @@ Progress Time: ${progress_time} seconds`
             });
           if (referralWallet) {
             const walletPoint = await strapi.db
-              .query("api::wallet_point.wallet_point")
+              .query("api::wallet-point.wallet-point")
               .findOne({
                 where: {
                   wallet_address: referralWallet.wallet_address,
                 },
               });
             if (!walletPoint) {
-              strapi.db.query("api::wallet_point.wallet_point").create({
+              strapi.db.query("api::wallet-point.wallet-point").create({
                 data: {
                   wallet_address: referralWallet.wallet_address,
                   points: query.receive / 1000,
                 },
               });
             } else {
-              strapi.db.query("api::wallet_point.wallet_point").update({
+              strapi.db.query("api::wallet-point.wallet-point").update({
                 where: {
                   wallet_address: referralWallet.wallet_address,
                 },
