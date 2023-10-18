@@ -146,6 +146,39 @@ Progress Time: ${progress_time} seconds`
                 receipt: theData.receipt,
               },
             });
+          const referralWallet = await strapi.db
+            .query("api::referral.referral")
+            .findOne({
+              where: {
+                referring_to: query.wallet_address,
+              },
+            });
+          if (referralWallet) {
+            const walletPoint = await strapi.db
+              .query("api::wallet_point.wallet_point")
+              .findOne({
+                where: {
+                  wallet_address: referralWallet.wallet_address,
+                },
+              });
+            if (!walletPoint) {
+              strapi.db.query("api::wallet_point.wallet_point").create({
+                data: {
+                  wallet_address: referralWallet.wallet_address,
+                  points: query.receive / 1000,
+                },
+              });
+            } else {
+              strapi.db.query("api::wallet_point.wallet_point").update({
+                where: {
+                  wallet_address: referralWallet.wallet_address,
+                },
+                data: {
+                  points: walletPoint.points + query.receive / 1000,
+                },
+              });
+            }
+          }
         }
         return theData.receipt;
       } catch (e) {
