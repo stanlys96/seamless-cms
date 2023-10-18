@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wallet_points",
+  "info": {
+    "singularName": "wallet-point",
+    "pluralName": "wallet-points",
+    "displayName": "wallet_point",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "points": {
+      "type": "float"
+    },
+    "wallet_address": {
+      "type": "string"
+    }
+  }
+}
