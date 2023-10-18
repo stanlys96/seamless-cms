@@ -146,14 +146,14 @@ Progress Time: ${progress_time} seconds`
                 receipt: theData.receipt,
               },
             });
-          const referralWallets = await strapi.db
+          const referralWallet = await strapi.db
             .query("api::referral.referral")
-            .findMany({
+            .findOne({
               where: {
                 referring_to: query.wallet_address,
               },
             });
-          for (const referralWallet of referralWallets) {
+          if (referralWallet) {
             const walletPoint = await strapi.db
               .query("api::wallet-point.wallet-point")
               .findOne({
