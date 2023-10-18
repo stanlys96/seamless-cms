@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "special_wallets",
+  "info": {
+    "singularName": "special-wallet",
+    "pluralName": "special-wallets",
+    "displayName": "special_wallet"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_address": {
+      "type": "string"
+    },
+    "access_code": {
+      "type": "string"
+    }
+  }
+}
