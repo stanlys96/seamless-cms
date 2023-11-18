@@ -31,17 +31,13 @@ module.exports = {
    */
   bootstrap({ strapi }) {
     for (let theContract of contracts) {
-      const currentProvider = new ethers.providers.JsonRpcProvider(
+      const provider = new ethers.providers.WebSocketProvider(
         theContract.rpcUrl
-      );
-      const currentWallet = new ethers.Wallet(
-        process.env.PRIVATE,
-        currentProvider
       );
       const currentContract = new ethers.Contract(
         theContract.contract,
         seamlessAbi,
-        currentWallet
+        provider
       );
 
       currentContract.on("TokenSent", async (_name, name) => {
