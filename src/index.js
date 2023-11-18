@@ -96,7 +96,7 @@ module.exports = {
               "/v3/disbursement",
               {
                 account_number: query.bank_account_number,
-                bank_code: query.bank_name.toLowerCase(),
+                bank_code: query.bank_code,
                 amount: query.receive,
                 remark: "Seamless Finance",
               },
