@@ -118,24 +118,29 @@ module.exports = createCoreController(
                 progress_time: progress_time,
               },
             });
-          webhookClient.send({
-            content: `${query?.wallet_address} just finished a transaction!
+          try {
+            webhookClient.send({
+              content: `${query?.wallet_address} just finished a transaction!
 Tx ID: ${query?.id}
 Blockchain Tx: ${query?.transaction_hash} 
 Flip Receipt: ${theData.receipt}
 Progress Time: ${progress_time} seconds`,
-            username: "Receipt Bot",
-            avatarURL: "https://i.imgur.com/AfFp7pu.png",
-            // embeds: [embed],
-          });
-          theTelegramBot.sendMessage(
-            -4045247511,
-            `${query?.wallet_address} just finished a transaction!
+              username: "Receipt Bot",
+              avatarURL: "https://i.imgur.com/AfFp7pu.png",
+              // embeds: [embed],
+            });
+            theTelegramBot.sendMessage(
+              -4045247511,
+              `${query?.wallet_address} just finished a transaction!
 Tx ID: ${query?.id}
 Blockchain Tx: ${query?.transaction_hash} 
 Flip Receipt: ${theData.receipt}
 Progress Time: ${progress_time} seconds`
-          );
+            );
+          } catch (botError) {
+            console.log(botError, "<<< BOT ERROR");
+          }
+
           const flipEntry = await strapi.db
             .query("api::flip-transaction.flip-transaction")
             .update({
