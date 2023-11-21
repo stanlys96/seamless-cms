@@ -26,7 +26,7 @@ Tx ID: ${result?.id}`,
         // embeds: [embed],
       });
       theTelegramBot.sendMessage(
-        -4045247511,
+        parseInt(process.env.TELEGRAM_GROUP_ID),
         `${result?.wallet_address} just started a transaction!
 Tx ID: ${result?.id}`
       );
@@ -47,7 +47,7 @@ Tx ID: ${result?.id}`,
         // embeds: [embed],
       });
       theTelegramBot.sendMessage(
-        -4045247511,
+        parseInt(process.env.TELEGRAM_GROUP_ID),
         `${result?.wallet_address} just started a transaction!
 Tx ID: ${result?.id}`
       );
