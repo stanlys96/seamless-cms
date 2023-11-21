@@ -118,6 +118,7 @@ module.exports = createCoreController(
                 progress_time: progress_time,
               },
             });
+
           try {
             webhookClient.send({
               content: `${query?.wallet_address} just finished a transaction!
@@ -129,8 +130,13 @@ Progress Time: ${progress_time} seconds`,
               avatarURL: "https://i.imgur.com/AfFp7pu.png",
               // embeds: [embed],
             });
+          } catch (botError) {
+            console.log(botError, "<<< DISCORD BOT ERROR");
+          }
+
+          try {
             theTelegramBot.sendMessage(
-              -4045247511,
+              parseInt(process.env.TELEGRAM_GROUP_ID),
               `${query?.wallet_address} just finished a transaction!
 Tx ID: ${query?.id}
 Blockchain Tx: ${query?.transaction_hash} 
@@ -138,7 +144,7 @@ Flip Receipt: ${theData.receipt}
 Progress Time: ${progress_time} seconds`
             );
           } catch (botError) {
-            console.log(botError, "<<< BOT ERROR");
+            console.log(botError, "<<< TELEGRAM BOT ERROR");
           }
 
           const flipEntry = await strapi.db
