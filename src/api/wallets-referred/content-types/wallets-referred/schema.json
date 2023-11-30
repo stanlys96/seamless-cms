@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wallets_referreds",
+  "info": {
+    "singularName": "wallets-referred",
+    "pluralName": "wallets-referreds",
+    "displayName": "wallets_referred",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_address": {
+      "type": "string"
+    },
+    "referral_code": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::referral-code.referral-code",
+      "inversedBy": "wallets_referreds"
+    }
+  }
+}

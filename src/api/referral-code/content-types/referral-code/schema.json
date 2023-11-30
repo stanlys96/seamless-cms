@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "referral_codes",
+  "info": {
+    "singularName": "referral-code",
+    "pluralName": "referral-codes",
+    "displayName": "referral_code",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "wallet_address": {
+      "type": "string"
+    },
+    "wallets_referreds": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::wallets-referred.wallets-referred",
+      "mappedBy": "referral_code"
+    }
+  }
+}

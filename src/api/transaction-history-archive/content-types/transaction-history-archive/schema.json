@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "transaction_histories",
+  "collectionName": "transaction_history_archives",
   "info": {
-    "singularName": "transaction-history",
-    "pluralName": "transaction-histories",
-    "displayName": "transaction_history",
+    "singularName": "transaction-history-archive",
+    "pluralName": "transaction-history-archives",
+    "displayName": "Transaction_history_archive",
     "description": ""
   },
   "options": {
@@ -64,7 +64,8 @@
         "Blockchain Error",
         "Flip",
         "Flip Success",
-        "Flip Error"
+        "Flip Error",
+        "Completed"
       ]
     },
     "start_progress": {
