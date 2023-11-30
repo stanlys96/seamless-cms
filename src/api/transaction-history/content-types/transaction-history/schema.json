@@ -90,6 +90,9 @@
     },
     "receive": {
       "type": "float"
+    },
+    "bank_code": {
+      "type": "string"
     }
   }
 }
