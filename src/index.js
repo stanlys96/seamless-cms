@@ -5,6 +5,7 @@ const seamlessAbi = require("./seamless-abi.json");
 const { chainData, contracts } = require("./helper");
 const axios = require("axios");
 const { formatEther } = require("@ethersproject/units");
+const cron = require("node-cron");
 
 const axiosCustom = axios.default.create({
   baseURL: "https://bigflip.id/api",
@@ -30,9 +31,85 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   bootstrap({ strapi }) {
+    cron.schedule("* 2 * * * *", async function () {
+      const theData = await strapi.db
+        .query("api::transaction-history.transaction-history")
+        .findMany({
+          where: {
+            status: {
+              $in: ["Blockchain", "Blockchain Success"],
+            },
+          },
+        });
+      for (let transactionData of theData) {
+        const transactionHash = transactionData.transaction_hash;
+        const currentNetwork = chainData.find((theData) =>
+          transactionHash.includes(theData.transactionUrl)
+        );
+
+        let cronProvider;
+        let tx;
+        try {
+          const theHash = transactionHash.split("/tx/");
+          cronProvider = new ethers.providers.JsonRpcProvider(
+            "https" + currentNetwork.httpsRpcUrl
+          );
+          tx = await cronProvider.getTransactionReceipt(theHash[1]);
+        } catch (e) {
+          console.log(e, "<<<");
+        }
+        if (tx && tx.status === 1) {
+          try {
+            const disburse = await axiosCustom.post(
+              "/v3/disbursement",
+              {
+                account_number: transactionData.bank_account_number,
+                bank_code: transactionData.bank_code,
+                amount: transactionData.receive,
+                remark: "Seamless Finance",
+              },
+              {
+                headers: {
+                  "idempotency-key": transactionData.idempotency_key,
+                },
+              }
+            );
+
+            const result = disburse.data;
+            strapi.db
+              .query("api::transaction-history.transaction-history")
+              .update({
+                where: {
+                  id: result.id,
+                },
+                data: {
+                  status: "Flip",
+                  transaction_id: result.id,
+                },
+              });
+            strapi.db.query("api::flip-transaction.flip-transaction").create({
+              data: {
+                account_number: result.account_number,
+                amount: result.amount,
+                account_name: result.recipient_name,
+                idempotency_key: result.idempotency_key,
+                bank_code: result.bank_code,
+                sender_bank: result.sender_bank,
+                transaction_id: result.id.toString(),
+                fee: result.fee,
+                user_id: result.user_id.toString(),
+                receipt: "",
+              },
+            });
+          } catch (e) {
+            console.log(e, "<<< ??? ");
+          }
+        }
+      }
+    });
     for (let theContract of contracts) {
       const provider = new ethers.providers.WebSocketProvider(
-        theContract.rpcUrl
+        "wss" + theContract.rpcUrl
       );
       const currentContract = new ethers.Contract(
         theContract.contract,
@@ -42,8 +119,6 @@ module.exports = {
 
       currentContract.on("TokenSent", async (_name, name) => {
         try {
-          console.log(_name, "<<<< _name");
-          console.log(name, "<<<< second name");
           const tx = await name.getTransaction();
           const transaction = await name.getTransactionReceipt();
           console.log(tx, "<<< tx");
