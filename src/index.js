@@ -81,7 +81,7 @@ module.exports = {
                 },
                 {
                   headers: {
-                    "idempotency-key": transactionData.idempotency_key,
+                    "idempotency-key": transactionData.idempotency_key + "abc",
                   },
                 }
               );
@@ -95,6 +95,7 @@ module.exports = {
                   data: {
                     status: "Flip",
                     transaction_id: result.id,
+                    from_cron_job: true,
                   },
                 });
               strapi.db.query("api::flip-transaction.flip-transaction").create({
