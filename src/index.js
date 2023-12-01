@@ -81,13 +81,11 @@ module.exports = {
                 },
                 {
                   headers: {
-                    "idempotency-key":
-                      transactionData.idempotency_key + "qweqweqweqwe",
+                    "idempotency-key": transactionData.idempotency_key,
                   },
                 }
               );
               const result = disburse.data;
-              console.log(result);
               if (result.status !== "DONE") {
                 strapi.db
                   .query("api::transaction-history.transaction-history")
