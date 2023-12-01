@@ -41,6 +41,7 @@ module.exports = {
             },
           },
         });
+      console.log("ASD");
       for (let transactionData of theData) {
         try {
           const transactionHash = transactionData.transaction_hash;
