@@ -43,6 +43,16 @@ module.exports = {
         });
       for (let transactionData of theData) {
         try {
+          strapi.db
+            .query("api::transaction-history.transaction-history")
+            .update({
+              where: {
+                id: transactionData.id,
+              },
+              data: {
+                status: "Checking",
+              },
+            });
           const transactionHash = transactionData.transaction_hash;
           const currentNetwork = chainData.find((theData) =>
             transactionHash.includes(theData.transactionUrl)
@@ -71,7 +81,7 @@ module.exports = {
                 },
                 {
                   headers: {
-                    "idempotency-key": transactionData.idempotency_key + "xxx",
+                    "idempotency-key": transactionData.idempotency_key + "abc",
                   },
                 }
               );
@@ -85,6 +95,7 @@ module.exports = {
                   data: {
                     status: "Flip",
                     transaction_id: result.id,
+                    from_cron_job: true,
                   },
                 });
               strapi.db.query("api::flip-transaction.flip-transaction").create({
