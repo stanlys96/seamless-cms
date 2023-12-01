@@ -37,7 +37,7 @@ module.exports = {
         .findMany({
           where: {
             status: {
-              $in: ["Blockchain", "Blockchain Success"],
+              $in: ["Blockchain"],
             },
           },
         });
