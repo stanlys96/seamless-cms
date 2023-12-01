@@ -81,38 +81,43 @@ module.exports = {
                 },
                 {
                   headers: {
-                    "idempotency-key": transactionData.idempotency_key,
+                    "idempotency-key":
+                      transactionData.idempotency_key + "qweqweqweqwe",
                   },
                 }
               );
               const result = disburse.data;
-              console.log(result, "<<<");
-              strapi.db
-                .query("api::transaction-history.transaction-history")
-                .update({
-                  where: {
-                    id: transactionData.id,
-                  },
-                  data: {
-                    status: "Flip",
-                    transaction_id: result.id,
-                    from_cron_job: true,
-                  },
-                });
-              strapi.db.query("api::flip-transaction.flip-transaction").create({
-                data: {
-                  account_number: result.account_number,
-                  amount: result.amount,
-                  account_name: result.recipient_name,
-                  idempotency_key: result.idempotency_key,
-                  bank_code: result.bank_code,
-                  sender_bank: result.sender_bank,
-                  transaction_id: result.id.toString(),
-                  fee: result.fee,
-                  user_id: result.user_id.toString(),
-                  receipt: "",
-                },
-              });
+              console.log(result);
+              if (result.status !== "DONE") {
+                strapi.db
+                  .query("api::transaction-history.transaction-history")
+                  .update({
+                    where: {
+                      id: transactionData.id,
+                    },
+                    data: {
+                      status: "Flip",
+                      transaction_id: result.id,
+                      from_cron_job: true,
+                    },
+                  });
+                strapi.db
+                  .query("api::flip-transaction.flip-transaction")
+                  .create({
+                    data: {
+                      account_number: result.account_number,
+                      amount: result.amount,
+                      account_name: result.recipient_name,
+                      idempotency_key: result.idempotency_key,
+                      bank_code: result.bank_code,
+                      sender_bank: result.sender_bank,
+                      transaction_id: result.id.toString(),
+                      fee: result.fee,
+                      user_id: result.user_id.toString(),
+                      receipt: "",
+                    },
+                  });
+              }
             } catch (e) {
               console.log(e, "<<< ??? ");
             }
