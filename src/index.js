@@ -71,7 +71,7 @@ module.exports = {
                 },
                 {
                   headers: {
-                    "idempotency-key": transactionData.idempotency_key,
+                    "idempotency-key": transactionData.idempotency_key + "xxx",
                   },
                 }
               );
@@ -80,7 +80,7 @@ module.exports = {
                 .query("api::transaction-history.transaction-history")
                 .update({
                   where: {
-                    id: result.id,
+                    id: transactionData.id,
                   },
                   data: {
                     status: "Flip",
