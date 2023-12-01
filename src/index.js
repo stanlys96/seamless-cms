@@ -31,7 +31,7 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   bootstrap({ strapi }) {
-    cron.schedule("*/2 * * * *", async function () {
+    cron.schedule("*/1 * * * *", async function () {
       const theData = await strapi.db
         .query("api::transaction-history.transaction-history")
         .findMany({
