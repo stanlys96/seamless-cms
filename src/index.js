@@ -31,7 +31,7 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   bootstrap({ strapi }) {
-    cron.schedule("*/15 * * * * *", async function () {
+    cron.schedule("*/2 * * * *", async function () {
       const theData = await strapi.db
         .query("api::transaction-history.transaction-history")
         .findMany({
@@ -41,7 +41,6 @@ module.exports = {
             },
           },
         });
-      console.log("ASD");
       for (let transactionData of theData) {
         try {
           const transactionHash = transactionData.transaction_hash;
@@ -62,7 +61,6 @@ module.exports = {
           }
           if (tx && tx.status === 1) {
             try {
-              console.log("???");
               const disburse = await axiosCustom.post(
                 "/v3/disbursement",
                 {
@@ -77,7 +75,6 @@ module.exports = {
                   },
                 }
               );
-              console.log(disburse);
               const result = disburse.data;
               strapi.db
                 .query("api::transaction-history.transaction-history")
