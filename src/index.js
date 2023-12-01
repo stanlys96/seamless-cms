@@ -86,6 +86,7 @@ module.exports = {
                 }
               );
               const result = disburse.data;
+              console.log(result, "<<<");
               strapi.db
                 .query("api::transaction-history.transaction-history")
                 .update({
