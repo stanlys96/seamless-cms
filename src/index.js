@@ -60,16 +60,32 @@ module.exports = {
 
           let cronProvider;
           let tx;
+          let theTx;
           try {
             const theHash = transactionHash.split("/tx/");
             cronProvider = new ethers.providers.JsonRpcProvider(
               "https" + currentNetwork.httpsRpcUrl
             );
             tx = await cronProvider.getTransactionReceipt(theHash[1]);
+            theTx = await cronProvider.getTransaction(theHash[1]);
           } catch (e) {
             console.log(e, "<<<");
           }
           if (tx && tx.status === 1) {
+            strapi.db
+              .query("api::transaction-history.transaction-history")
+              .update({
+                where: {
+                  id: transactionData.id,
+                },
+                data: {
+                  status: "Blockchain Success",
+                  gas_price: parseFloat(formatEther(theTx.gasPrice)),
+                  block_confirmation: theTx.confirmations.toString(),
+                  transaction_success: true,
+                  from_cron_job: true,
+                },
+              });
             try {
               const disburse = await axiosCustom.post(
                 "/v3/disbursement",
