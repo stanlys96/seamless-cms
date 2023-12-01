@@ -81,7 +81,7 @@ module.exports = {
                 },
                 {
                   headers: {
-                    "idempotency-key": transactionData.idempotency_key + "abc",
+                    "idempotency-key": transactionData.idempotency_key,
                   },
                 }
               );
