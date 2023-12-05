@@ -56,6 +56,8 @@ module.exports = {
             cronProvider = new ethers.providers.JsonRpcProvider(
               "https" + currentNetwork.httpsRpcUrl
             );
+            console.log(theHash[0]);
+            console.log(theHash[1]);
             tx = await cronProvider.getTransactionReceipt(theHash[1]);
             theTx = await cronProvider.getTransaction(theHash[1]);
           } catch (e) {
