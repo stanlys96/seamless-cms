@@ -35,7 +35,7 @@ module.exports = {
       chainId: 56,
       name: "BSC",
       transactionUrl: "https://bscscan.com/tx/",
-      httpsRpcUrl: process.env.BINANCE_RPC_URL,
+      httpsRpcUrl: process.env.BSC_RPC_URL,
     },
     // {
     //   id: 6,
