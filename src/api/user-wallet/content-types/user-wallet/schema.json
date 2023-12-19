@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_wallets",
+  "info": {
+    "singularName": "user-wallet",
+    "pluralName": "user-wallets",
+    "displayName": "user_wallet",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_address": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "default_destination": {
+      "type": "string"
+    },
+    "id_card": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "id_number": {
+      "type": "string"
+    },
+    "province": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "blood_type": {
+      "type": "string"
+    },
+    "religion": {
+      "type": "string"
+    },
+    "referral_code": {
+      "type": "string"
+    },
+    "default_bank_code": {
+      "type": "string"
+    },
+    "default_bank_img_url": {
+      "type": "string"
+    }
+  }
+}

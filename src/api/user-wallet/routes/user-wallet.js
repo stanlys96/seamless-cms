@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * referral router
+ * user-wallet router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::referral.referral');
+module.exports = createCoreRouter('api::user-wallet.user-wallet');

@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * referral service
+ * user-wallet service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::referral.referral');
+module.exports = createCoreService('api::user-wallet.user-wallet');

@@ -64,7 +64,8 @@
         "Blockchain Error",
         "Flip",
         "Flip Success",
-        "Flip Error"
+        "Flip Error",
+        "Checking"
       ]
     },
     "start_progress": {
@@ -93,6 +94,10 @@
     },
     "bank_code": {
       "type": "string"
+    },
+    "from_cron_job": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
