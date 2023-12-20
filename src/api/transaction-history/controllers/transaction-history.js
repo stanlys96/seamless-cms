@@ -162,27 +162,29 @@ Progress Time: ${progress_time} seconds`
             .query("api::wallets-referred.wallets-referred")
             .findOne({
               where: {
-                wallet_address: "0xF5553Ec7829A7616133176412B04e71249895200",
+                wallet_address: query?.wallet_address ?? "",
               },
               populate: ["referral_code"],
             });
-          const referralCode = await strapi.db
-            .query("api::referral-code.referral-code")
-            .findOne({
+          if (referralWallet) {
+            const referralCode = await strapi.db
+              .query("api::referral-code.referral-code")
+              .findOne({
+                where: {
+                  wallet_address: referralWallet.referral_code.wallet_address,
+                },
+              });
+            strapi.db.query("api::referral-code.referral-code").update({
               where: {
                 wallet_address: referralWallet.referral_code.wallet_address,
               },
+              data: {
+                points: !referralCode.points
+                  ? query.receive / 1000
+                  : referralCode.points + query.receive / 1000,
+              },
             });
-          strapi.db.query("api::referral-code.referral-code").update({
-            where: {
-              wallet_address: referralWallet.referral_code.wallet_address,
-            },
-            data: {
-              points: !referralCode.points
-                ? query.receive / 1000
-                : referralCode.points + query.receive / 1000,
-            },
-          });
+          }
         }
         return theData.receipt;
       } catch (e) {
