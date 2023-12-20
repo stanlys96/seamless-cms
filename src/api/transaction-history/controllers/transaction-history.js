@@ -157,39 +157,32 @@ Progress Time: ${progress_time} seconds`
                 receipt: theData.receipt,
               },
             });
+
           const referralWallet = await strapi.db
-            .query("api::referral.referral")
+            .query("api::wallets-referred.wallets-referred")
             .findOne({
               where: {
-                referring_to: query.wallet_address,
+                wallet_address: "0xF5553Ec7829A7616133176412B04e71249895200",
+              },
+              populate: ["referral_code"],
+            });
+          const referralCode = await strapi.db
+            .query("api::referral-code.referral-code")
+            .findOne({
+              where: {
+                wallet_address: referralWallet.referral_code.wallet_address,
               },
             });
-          if (referralWallet) {
-            const walletPoint = await strapi.db
-              .query("api::wallet-point.wallet-point")
-              .findOne({
-                where: {
-                  wallet_address: referralWallet.wallet_address,
-                },
-              });
-            if (!walletPoint) {
-              strapi.db.query("api::wallet-point.wallet-point").create({
-                data: {
-                  wallet_address: referralWallet.wallet_address,
-                  points: query.receive / 1000,
-                },
-              });
-            } else {
-              strapi.db.query("api::wallet-point.wallet-point").update({
-                where: {
-                  wallet_address: referralWallet.wallet_address,
-                },
-                data: {
-                  points: walletPoint.points + query.receive / 1000,
-                },
-              });
-            }
-          }
+          strapi.db.query("api::referral-code.referral-code").update({
+            where: {
+              wallet_address: referralWallet.referral_code.wallet_address,
+            },
+            data: {
+              points: !referralCode.points
+                ? query.receive / 1000
+                : referralCode.points + query.receive / 1000,
+            },
+          });
         }
         return theData.receipt;
       } catch (e) {
