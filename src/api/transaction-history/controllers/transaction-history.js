@@ -271,5 +271,16 @@ Progress Time: ${progress_time} seconds`
         console.log(e, "<<<< E");
       }
     },
+    async checkKtpFile(ctx) {
+      const { fileName } = ctx.request.body;
+      try {
+        const response = await axios.default.get(
+          `${process.env.KTP_VERIFY_URL}${fileName}`
+        );
+        return response.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
   })
 );

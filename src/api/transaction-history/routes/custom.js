@@ -56,5 +56,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "GET",
+      path: "/check-ktp-file",
+      handler: "transaction-history.checkKtpFile",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
