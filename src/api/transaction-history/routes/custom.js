@@ -57,7 +57,7 @@ module.exports = {
       },
     },
     {
-      method: "GET",
+      method: "POST",
       path: "/check-ktp-file",
       handler: "transaction-history.checkKtpFile",
       config: {
