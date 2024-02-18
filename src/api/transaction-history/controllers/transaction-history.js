@@ -300,5 +300,18 @@ Progress Time: ${progress_time} seconds`
         console.log(e);
       }
     },
+    async handleSwapOld(ctx) {
+      try {
+        console.log(ctx.request.body);
+        const { chainId, fromToken, toToken, amount, address, slippage } =
+          ctx.request.body;
+        const tx = await axios.default.get(
+          `https://api/1inch.io/v5.2/${chainId}/swap?src=0x${fromToken}&dst=0x${toToken}&amount=${amount}&from=${address}&slippage=${slippage}`
+        );
+        return tx.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
   })
 );
