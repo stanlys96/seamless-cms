@@ -64,5 +64,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/handle-swap",
+      handler: "transaction-history.handleSwap",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
