@@ -313,5 +313,21 @@ Progress Time: ${progress_time} seconds`
         console.log(e);
       }
     },
+    async handleApprove(ctx) {
+      try {
+        const { chainId, tokenAddress, amount } = ctx.request.body;
+        const tx = await axios.default.get(
+          `https://api.1inch.dev/swap/v5.2/1/approve/transaction?chain=${chainId}&tokenAddress=${tokenAddress}&amount=${amount}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.INCH_KEY}`,
+            },
+          }
+        );
+        return tx.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
   })
 );

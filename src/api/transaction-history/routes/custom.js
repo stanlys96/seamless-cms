@@ -80,5 +80,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/handle-approve",
+      handler: "transaction-history.handleApprove",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
