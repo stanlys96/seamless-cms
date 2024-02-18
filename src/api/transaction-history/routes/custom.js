@@ -88,5 +88,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/handle-quote",
+      handler: "transaction-history.handleQuote",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };

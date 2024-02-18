@@ -317,7 +317,23 @@ Progress Time: ${progress_time} seconds`
       try {
         const { chainId, tokenAddress, amount } = ctx.request.body;
         const tx = await axios.default.get(
-          `https://api.1inch.dev/swap/v5.2/1/approve/transaction?chain=${chainId}&tokenAddress=${tokenAddress}&amount=${amount}`,
+          `https://api.1inch.dev/swap/v5.2/${chainId}/approve/transaction?chain=${chainId}&tokenAddress=${tokenAddress}&amount=${amount}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.INCH_KEY}`,
+            },
+          }
+        );
+        return tx.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async handleQuote(ctx) {
+      try {
+        const { chainId, fromToken, toToken, amount } = ctx.request.body;
+        const tx = await axios.default.get(
+          `https://api.1inch.dev/swap/v5.2/${chainId}/quote?src=${fromToken}&dst=${toToken}&amount=${amount}`,
           {
             headers: {
               Authorization: `Bearer ${process.env.INCH_KEY}`,
