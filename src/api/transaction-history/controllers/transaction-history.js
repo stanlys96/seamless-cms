@@ -306,7 +306,7 @@ Progress Time: ${progress_time} seconds`
         const { chainId, fromToken, toToken, amount, address, slippage } =
           ctx.request.body;
         const tx = await axios.default.get(
-          `https://api/1inch.io/v5.2/${chainId}/swap?src=0x${fromToken}&dst=0x${toToken}&amount=${amount}&from=${address}&slippage=${slippage}`
+          `https://api/1inch.io/v4.0/${chainId}/swap?fromTokenAddress=0x${fromToken}&toTokenAddress=0x${toToken}&amount=${amount}&fromAddress=${address}&slippage=${slippage}`
         );
         return tx.data;
       } catch (e) {
