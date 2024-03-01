@@ -345,5 +345,12 @@ Progress Time: ${progress_time} seconds`
         console.log(e);
       }
     },
+    async handleCallback(ctx) {
+      try {
+        console.log(ctx.request.body);
+      } catch (e) {
+        console.log(e);
+      }
+    },
   })
 );

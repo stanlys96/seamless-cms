@@ -96,5 +96,13 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/handle-callback",
+      handler: "transaction-history.handleCallback",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
