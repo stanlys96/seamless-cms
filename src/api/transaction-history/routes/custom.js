@@ -104,5 +104,21 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "POST",
+      path: "/callback-payment",
+      handler: "transaction-history.callbackPayment",
+      config: {
+        auth: false,
+      },
+    },
+    {
+      method: "POST",
+      path: "/create-payment",
+      handler: "transaction-history.createPayment",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };

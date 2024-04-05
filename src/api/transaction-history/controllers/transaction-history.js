@@ -352,5 +352,26 @@ Progress Time: ${progress_time} seconds`
         console.log(e);
       }
     },
+    async callbackPayment(ctx) {
+      try {
+        console.log(ctx.request.body);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async createPayment(ctx) {
+      try {
+        const { title, type, amount, redirect_url } = ctx.request.body;
+        const payment = await axiosCustom.post("/v2/pwf/bill", {
+          title,
+          type,
+          amount,
+          redirect_url,
+        });
+        return payment;
+      } catch (e) {
+        return e.response.data;
+      }
+    },
   })
 );
