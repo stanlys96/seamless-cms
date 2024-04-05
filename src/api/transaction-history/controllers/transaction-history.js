@@ -366,7 +366,7 @@ Progress Time: ${progress_time} seconds`
           ctx.request.body
         );
         console.log(payment, "<<< PAYMENT");
-        return payment;
+        return payment.data;
       } catch (e) {
         return e.response.data;
       }
