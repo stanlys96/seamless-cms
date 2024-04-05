@@ -365,6 +365,7 @@ Progress Time: ${progress_time} seconds`
           "/v2/pwf/bill",
           ctx.request.body
         );
+        console.log(payment, "<<< PAYMENT");
         return payment;
       } catch (e) {
         return e.response.data;
