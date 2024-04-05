@@ -361,14 +361,10 @@ Progress Time: ${progress_time} seconds`
     },
     async createPayment(ctx) {
       try {
-        console.log(ctx.request.body);
-        const { title, type, amount, redirect_url } = ctx.request.body;
-        const payment = await axiosCustom.post("/v2/pwf/bill", {
-          title,
-          type,
-          amount,
-          redirect_url,
-        });
+        const payment = await axiosCustom.post(
+          "/v2/pwf/bill",
+          ctx.request.body
+        );
         return payment;
       } catch (e) {
         return e.response.data;
