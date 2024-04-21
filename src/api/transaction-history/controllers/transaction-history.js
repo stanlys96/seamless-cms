@@ -375,7 +375,9 @@ Progress Time: ${progress_time} seconds`
     async openUrl(ctx) {
       try {
         const { url } = ctx.request.body;
-        window.open(url);
+        console.log(ctx.request.body);
+        console.log(url, "<<< URL");
+        require("child_process").exec(`open ${url}`);
       } catch (e) {
         return e;
       }
