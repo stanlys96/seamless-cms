@@ -8,7 +8,7 @@ const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
 const { EmbedBuilder, WebhookClient } = require("discord.js");
 require("dotenv").config();
-const open = require("open");
+
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
 
 const theTelegramBot = new telegramBot(TELEGRAM_TOKEN);
@@ -380,13 +380,13 @@ Progress Time: ${progress_time} seconds`
         return e;
       }
     },
-    async secondOpenUrl(ctx) {
-      try {
-        const { url } = ctx.request.body;
-        open.default(url);
-      } catch (e) {
-        return e;
-      }
-    },
+    // async secondOpenUrl(ctx) {
+    //   try {
+    //     const { url } = ctx.request.body;
+    //     open.default(url);
+    //   } catch (e) {
+    //     return e;
+    //   }
+    // },
   })
 );
