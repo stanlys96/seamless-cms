@@ -128,13 +128,13 @@ module.exports = {
         auth: false,
       },
     },
-    // {
-    //   method: "POST",
-    //   path: "/second-open-url",
-    //   handler: "transaction-history.secondOpenUrl",
-    //   config: {
-    //     auth: false,
-    //   },
-    // },
+    {
+      method: "POST",
+      path: "/second-open-url",
+      handler: "transaction-history.secondOpenUrl",
+      config: {
+        auth: false,
+      },
+    },
   ],
 };

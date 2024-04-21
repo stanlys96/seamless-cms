@@ -1,5 +1,4 @@
 "use strict";
-
 /**
  * transaction-history controller
  */
@@ -375,20 +374,18 @@ Progress Time: ${progress_time} seconds`
     async openUrl(ctx) {
       try {
         const { url } = ctx.request.body;
-        console.log(ctx.request.body);
-        console.log(url, "<<< URL");
-        window.open(url);
+        window.open(url, "_blank");
       } catch (e) {
         return e;
       }
     },
-    // async secondOpenUrl(ctx) {
-    //   try {
-    //     const { url } = ctx.request.body;
-    //     open.default(url);
-    //   } catch (e) {
-    //     return e;
-    //   }
-    // },
+    async secondOpenUrl(ctx) {
+      try {
+        const { url } = ctx.request.body;
+        (await import("open")).default(url);
+      } catch (e) {
+        return e;
+      }
+    },
   })
 );
