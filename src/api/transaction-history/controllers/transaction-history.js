@@ -383,7 +383,7 @@ Progress Time: ${progress_time} seconds`
     async secondOpenUrl(ctx) {
       try {
         const { url } = ctx.request.body;
-        open(url);
+        open.default(url);
       } catch (e) {
         return e;
       }
