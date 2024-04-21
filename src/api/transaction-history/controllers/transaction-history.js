@@ -377,7 +377,7 @@ Progress Time: ${progress_time} seconds`
         const { url } = ctx.request.body;
         console.log(ctx.request.body);
         console.log(url, "<<< URL");
-        require("child_process").exec(`open ${url}`);
+        window.open(url);
       } catch (e) {
         return e;
       }
