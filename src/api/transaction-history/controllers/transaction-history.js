@@ -7,6 +7,8 @@ const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
 const { EmbedBuilder, WebhookClient } = require("discord.js");
 const Web3 = require("web3");
+const { cryptoData } = require("../../../crypto-helper");
+const erc20Abi = require("../../../erc20-abi.json");
 require("dotenv").config();
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
@@ -354,40 +356,6 @@ Progress Time: ${progress_time} seconds`
       }
     },
     async callbackPayment(ctx) {
-      // console.log(offrampTransaction);
-      const web3 = new Web3.default(process.env.SEPOLIA_RPC_URL);
-      const toAddress = "0x55a063f2d34a4b2665D18a199908148dCb55bcf5";
-      const value = web3.utils.toWei("0.01", "ether");
-      console.log("KIM JONG UN");
-      const signedTransaction = await web3.eth.accounts.signTransaction(
-        {
-          from: process.env.FROM_ADDRESS,
-          to: toAddress,
-          value: value,
-          gas: 21000,
-          gasPrice: await web3.eth.getGasPrice(),
-        },
-        process.env.PRIVATE_KEY
-      );
-      web3.eth
-        .sendSignedTransaction(signedTransaction.rawTransaction)
-        .then(async (receipt) => {
-          console.log(receipt, "<<< receipt");
-          // await strapi.db
-          //   .query("api::offramp-transaction.offramp-transaction")
-          //   .update({
-          //     where: {
-          //       link_id: result.bill_link_id,
-          //     },
-          //     data: {
-          //       status: "Success",
-          //     },
-          //   });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      return;
       try {
         const { data, token } = ctx.request.body;
         const result = JSON.parse(data);
@@ -399,38 +367,99 @@ Progress Time: ${progress_time} seconds`
             },
           });
         if (offrampTransaction) {
-          console.log(offrampTransaction);
-          const web3 = new Web3.default(process.env.SEPOLIA_RPC_URL);
-          const toAddress = "0x55a063f2d34a4b2665D18a199908148dCb55bcf5";
-          const value = web3.utils.toWei("0.01", "ether");
-          console.log("KIM JONG UN");
-          const signedTransaction = await web3.eth.accounts.signTransaction(
-            {
-              from: process.env.FROM_ADDRESS,
-              to: toAddress,
-              value: value,
-              gas: 2000000,
-            },
-            process.env.PRIVATE_KEY
+          const currentChain = cryptoData.find(
+            (crypto) => crypto.chainId === offrampTransaction.chain_id
           );
-          web3.eth
-            .sendSignedTransaction(signedTransaction.rawTransaction)
-            .then(async (receipt) => {
-              console.log(receipt, "<<< receipt");
-              await strapi.db
-                .query("api::offramp-transaction.offramp-transaction")
-                .update({
-                  where: {
-                    link_id: result.bill_link_id,
-                  },
-                  data: {
-                    status: "Success",
-                  },
-                });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          const web3 = new Web3.default(currentChain.rpcUrl ?? "");
+          const currentToken = currentChain.tokenData.find(
+            (token) => token.name === offrampTransaction.crypto
+          );
+          if (currentToken.native) {
+            const value = web3.utils.toWei(
+              offrampTransaction.crypto_value.toString(),
+              "ether"
+            );
+            const signedTransaction = await web3.eth.accounts.signTransaction(
+              {
+                from: process.env.FROM_ADDRESS,
+                to: offrampTransaction.to_address,
+                value: value,
+                gas: 21000,
+                gasPrice: await web3.eth.getGasPrice(),
+              },
+              process.env.PRIVATE_KEY
+            );
+            web3.eth
+              .sendSignedTransaction(signedTransaction.rawTransaction)
+              .then(async (receipt) => {
+                console.log(receipt.status, "<<< receipt");
+                await strapi.db
+                  .query("api::offramp-transaction.offramp-transaction")
+                  .update({
+                    where: {
+                      link_id: result.bill_link_id,
+                    },
+                    data: {
+                      status: "Success",
+                    },
+                  });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            const count = await web3.eth.getTransactionCount(
+              process.env.FROM_ADDRESS
+            );
+            const token = new web3.eth.Contract(
+              erc20Abi,
+              "0x" + currentToken.contractAddress
+            );
+            const txObject = {
+              from: process.env.FROM_ADDRESS,
+              nonce: "0x" + count.toString(16),
+              to: offrampTransaction.to_address,
+              gas: 21000,
+              value: "0x0",
+              gasPrice: await web3.eth.getGasPrice(),
+              data: token.methods
+                .transfer(
+                  offrampTransaction.to_address,
+                  web3.utils.toHex(
+                    web3.utils.toWei(
+                      offrampTransaction.crypto_value.toString(),
+                      "ether"
+                    )
+                  )
+                )
+                .encodeABI(),
+            };
+            web3.eth.accounts
+              .signTransaction(txObject, process.env.PRIVATE_KEY)
+              .then((res) => {
+                const theResult = res.rawTransaction;
+                web3.eth
+                  .sendSignedTransaction(theResult)
+                  .then(async (res) => {
+                    await strapi.db
+                      .query("api::offramp-transaction.offramp-transaction")
+                      .update({
+                        where: {
+                          link_id: result.bill_link_id,
+                        },
+                        data: {
+                          status: "Success",
+                        },
+                      });
+                  })
+                  .catch((err) => {
+                    console.log(err, "<< send signed transaction err");
+                  });
+              })
+              .catch((err) => {
+                console.log(err, "<< sign transaction err");
+              });
+          }
         }
       } catch (e) {
         console.log(e);
