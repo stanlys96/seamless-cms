@@ -378,11 +378,27 @@ Progress Time: ${progress_time} seconds`
         //   .catch((err) => {
         //     console.log(err);
         //   });
-        console.log(ctx.request.body);
         const { data, token } = ctx.request.body;
-        console.log(data.bill_link_id);
-        console.log(token);
-        console.log(JSON.parse(data));
+        const result = JSON.parse(data);
+        const offrampTransaction = await strapi.db
+          .query("api::offramp-transaction.offramp-transaction")
+          .findOne({
+            where: {
+              link_id: result.bill_link_id,
+            },
+          });
+        if (offrampTransaction) {
+          await strapi.db
+            .query("api::offramp-transaction.offramp-transaction")
+            .update({
+              where: {
+                link_id: result.bill_link_id,
+              },
+              data: {
+                status: "Success",
+              },
+            });
+        }
       } catch (e) {
         console.log(e);
       }
