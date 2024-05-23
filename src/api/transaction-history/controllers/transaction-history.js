@@ -354,6 +354,39 @@ Progress Time: ${progress_time} seconds`
       }
     },
     async callbackPayment(ctx) {
+      // console.log(offrampTransaction);
+      const web3 = new Web3.default(process.env.SEPOLIA_RPC_URL);
+      const toAddress = "0x55a063f2d34a4b2665D18a199908148dCb55bcf5";
+      const value = web3.utils.toWei("0.01", "ether");
+      console.log("KIM JONG UN");
+      const signedTransaction = await web3.eth.accounts.signTransaction(
+        {
+          from: process.env.FROM_ADDRESS,
+          to: toAddress,
+          value: value,
+          gas: 2000000,
+        },
+        process.env.PRIVATE_KEY
+      );
+      web3.eth
+        .sendSignedTransaction(signedTransaction.rawTransaction)
+        .then(async (receipt) => {
+          console.log(receipt, "<<< receipt");
+          // await strapi.db
+          //   .query("api::offramp-transaction.offramp-transaction")
+          //   .update({
+          //     where: {
+          //       link_id: result.bill_link_id,
+          //     },
+          //     data: {
+          //       status: "Success",
+          //     },
+          //   });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
       try {
         const { data, token } = ctx.request.body;
         const result = JSON.parse(data);
@@ -372,6 +405,7 @@ Progress Time: ${progress_time} seconds`
           console.log("KIM JONG UN");
           const signedTransaction = await web3.eth.accounts.signTransaction(
             {
+              from: process.env.FROM_ADDRESS,
               to: toAddress,
               value: value,
               gas: 2000000,
