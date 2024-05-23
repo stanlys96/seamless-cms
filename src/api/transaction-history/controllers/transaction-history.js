@@ -375,6 +375,7 @@ Progress Time: ${progress_time} seconds`
           const currentToken = currentChain.tokenData.find(
             (token) => token.name === offrampTransaction.crypto
           );
+          console.log(offrampTransaction);
           if (currentToken.native) {
             const value = web3.utils.toWei(
               offrampTransaction.crypto_value.toString(),
