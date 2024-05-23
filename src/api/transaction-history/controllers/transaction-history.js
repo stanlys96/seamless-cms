@@ -380,8 +380,9 @@ Progress Time: ${progress_time} seconds`
         //   });
         console.log(ctx.request.body);
         const { data, token } = ctx.request.body;
-        console.log(data);
+        console.log(data.bill_link_id);
         console.log(token);
+        console.log(JSON.parse(data));
       } catch (e) {
         console.log(e);
       }
