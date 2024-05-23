@@ -6,6 +6,7 @@ const telegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
 const { EmbedBuilder, WebhookClient } = require("discord.js");
+const Web3 = require("web3");
 require("dotenv").config();
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
@@ -354,7 +355,33 @@ Progress Time: ${progress_time} seconds`
     },
     async callbackPayment(ctx) {
       try {
+        // const web3 = new Web3.default(
+        //   "https://sepolia.infura.io/v3/11d0a5344888470393248b1c55105a8c"
+        // );
+        // const fromAddress = "0xf3f1A4EadA0D8a35d82421E303a139EBDC8E823f";
+        // const toAddress = "0x55a063f2d34a4b2665D18a199908148dCb55bcf5";
+        // const value = web3.utils.toWei("0.01", "ether");
+
+        // const signedTransaction = await web3.eth.accounts.signTransaction(
+        //   {
+        //     to: toAddress,
+        //     value: value,
+        //     gas: 2000000,
+        //   },
+        //   "31d723bad49755b51ad0ecc676cd22849eb76b05afa8749f431e268e36cf4675"
+        // );
+        // web3.eth
+        //   .sendSignedTransaction(signedTransaction.rawTransaction)
+        //   .then((receipt) => {
+        //     console.log(receipt, "<<< receipt");
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
         console.log(ctx.request.body);
+        const { data, token } = ctx.request.body;
+        console.log(data);
+        console.log(token);
       } catch (e) {
         console.log(e);
       }
