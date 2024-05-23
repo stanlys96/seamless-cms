@@ -7,8 +7,9 @@ const axios = require("axios");
 const { createCoreController } = require("@strapi/strapi").factories;
 const { EmbedBuilder, WebhookClient } = require("discord.js");
 const Web3 = require("web3");
-const { cryptoData } = require("../../../crypto-helper");
+
 const erc20Abi = require("../../../erc20-abi.json");
+const { cryptoData } = require("../../../crypto-helper");
 require("dotenv").config();
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_API_KEY;
