@@ -420,7 +420,7 @@ Progress Time: ${progress_time} seconds`
               from: process.env.FROM_ADDRESS,
               nonce: "0x" + count.toString(16),
               to: offrampTransaction.to_address,
-              gas: 21000,
+              gas: 100000,
               value: "0x0",
               gasPrice: await web3.eth.getGasPrice(),
               data: token.methods
