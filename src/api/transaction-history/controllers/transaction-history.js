@@ -9,6 +9,7 @@ const { EmbedBuilder, WebhookClient } = require("discord.js");
 const Web3 = require("web3");
 
 const erc20Abi = require("../../../erc20-abi.json");
+const { ethers } = require("ethers");
 const { cryptoData } = require("../../../crypto-helper");
 require("dotenv").config();
 
@@ -367,6 +368,7 @@ Progress Time: ${progress_time} seconds`
               link_id: result.bill_link_id,
             },
           });
+
         if (offrampTransaction) {
           const currentChain = cryptoData.find(
             (crypto) => crypto.chainId === offrampTransaction.chain_id
@@ -412,58 +414,41 @@ Progress Time: ${progress_time} seconds`
                 console.log(err);
               });
           } else {
-            const count = await web3.eth.getTransactionCount(
-              process.env.FROM_ADDRESS
+            const provider = new ethers.providers.JsonRpcProvider(
+              currentChain?.rpcUrl ?? ""
             );
-            const token = new web3.eth.Contract(
+            const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+            const contract = new ethers.Contract(
+              "0x" + currentToken?.contractAddress,
               erc20Abi,
-              "0x" + currentToken.contractAddress
+              wallet
             );
-            const txObject = {
-              from: process.env.FROM_ADDRESS,
-              nonce: "0x" + count.toString(16),
-              to: offrampTransaction.to_address,
-              gas: 41000,
-              value: "0x0",
-              gasPrice: await web3.eth.getGasPrice(),
-              data: token.methods
-                .transfer(
-                  offrampTransaction.to_address,
-                  web3.utils.toHex(
-                    web3.utils.toWei(
-                      offrampTransaction.crypto_value.toString(),
-                      "ether"
-                    )
-                  )
-                )
-                .encodeABI(),
-            };
-            web3.eth.accounts
-              .signTransaction(txObject, process.env.PRIVATE_KEY)
-              .then((res) => {
-                const theResult = res.rawTransaction;
-                web3.eth
-                  .sendSignedTransaction(theResult)
-                  .then(async (res) => {
-                    console.log(res, "<<< SUCCESS!!");
-                    await strapi.db
-                      .query("api::offramp-transaction.offramp-transaction")
-                      .update({
-                        where: {
-                          link_id: result.bill_link_id,
-                        },
-                        data: {
-                          status: "Success",
-                        },
-                      });
-                  })
-                  .catch((err) => {
-                    console.log(err, "<< send signed transaction err");
-                  });
-              })
-              .catch((err) => {
-                console.log(err, "<< sign transaction err");
-              });
+            const tokenValue = ethers.utils.parseUnits(
+              offrampTransaction.crypto_value.toString(),
+              currentToken?.decimals
+            );
+            try {
+              contract
+                .transfer(offrampTransaction.to_address, tokenValue)
+                .then(async (res) => {
+                  console.log(res, "<<< RES");
+                  await strapi.db
+                    .query("api::offramp-transaction.offramp-transaction")
+                    .update({
+                      where: {
+                        link_id: result.bill_link_id,
+                      },
+                      data: {
+                        status: "Success",
+                      },
+                    });
+                })
+                .catch((err) => {
+                  console.log(err, "<<< ERR TRANSFER");
+                });
+            } catch (e) {
+              console.log(e, "<< ERR IN SENDING");
+            }
           }
         }
       } catch (e) {
