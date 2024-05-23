@@ -364,7 +364,8 @@ Progress Time: ${progress_time} seconds`
           from: process.env.FROM_ADDRESS,
           to: toAddress,
           value: value,
-          gas: 2000000,
+          gas: 21000,
+          gasPrice: await web3.eth.getGasPrice(),
         },
         process.env.PRIVATE_KEY
       );
