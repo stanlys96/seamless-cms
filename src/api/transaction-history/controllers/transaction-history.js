@@ -442,6 +442,7 @@ Progress Time: ${progress_time} seconds`
                 web3.eth
                   .sendSignedTransaction(theResult)
                   .then(async (res) => {
+                    console.log(res, "<<< SUCCESS!!");
                     await strapi.db
                       .query("api::offramp-transaction.offramp-transaction")
                       .update({
