@@ -417,8 +417,10 @@ Progress Time: ${progress_time} seconds`
             const provider = new ethers.providers.JsonRpcProvider(
               currentChain?.rpcUrl ?? ""
             );
+
             const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-            const contract = new ethers.Contract(
+
+            const erc20 = new ethers.Contract(
               "0x" + currentToken?.contractAddress,
               erc20Abi,
               wallet
@@ -427,8 +429,9 @@ Progress Time: ${progress_time} seconds`
               offrampTransaction.crypto_value.toString(),
               currentToken?.decimals
             );
+            const tokenSigner = erc20.connect(wallet);
             try {
-              contract
+              tokenSigner
                 .transfer(offrampTransaction.to_address, tokenValue)
                 .then(async (res) => {
                   console.log(res, "<<< RES");
