@@ -425,10 +425,13 @@ Progress Time: ${progress_time} seconds`
               erc20Abi,
               wallet
             );
+            console.log(offrampTransaction.crypto_value.toString());
+            console.log(currentToken?.decimals);
             const tokenValue = ethers.utils.parseUnits(
               offrampTransaction.crypto_value.toString(),
               currentToken?.decimals
             );
+            console.log(tokenValue);
             const tokenSigner = erc20.connect(wallet);
             try {
               tokenSigner
