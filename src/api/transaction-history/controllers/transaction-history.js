@@ -433,7 +433,8 @@ Progress Time: ${progress_time} seconds`
               offrampTransaction.crypto_value.toString(),
               currentToken?.decimals
             );
-            console.log(tokenValue);
+            console.log(tokenValue.toString());
+            console.log(offrampTransaction);
             const tokenSigner = erc20.connect(wallet);
             try {
               tokenSigner
