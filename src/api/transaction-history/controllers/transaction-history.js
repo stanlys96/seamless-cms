@@ -425,6 +425,8 @@ Progress Time: ${progress_time} seconds`
               erc20Abi,
               wallet
             );
+            console.log("0x" + currentToken?.contractAddress);
+            console.log(await erc20.decimals());
             console.log(offrampTransaction.crypto_value.toString());
             console.log(currentToken?.decimals);
             const tokenValue = ethers.utils.parseUnits(
