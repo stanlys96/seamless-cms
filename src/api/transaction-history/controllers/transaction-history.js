@@ -369,7 +369,7 @@ Progress Time: ${progress_time} seconds`
             },
           });
 
-        if (offrampTransaction) {
+        if (offrampTransaction && offrampTransaction.status !== "Success") {
           const currentChain = cryptoData.find(
             (crypto) => crypto.chainId === offrampTransaction.chain_id
           );
