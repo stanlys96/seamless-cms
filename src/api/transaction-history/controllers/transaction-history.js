@@ -438,7 +438,7 @@ Progress Time: ${progress_time} seconds`
             console.log(offrampTransaction);
             const tokenSigner = erc20.connect(wallet);
             const balance = await erc20.balanceOf(wallet.address);
-            console.log(balance, "<<< balance");
+            console.log(balance.toString(), "<<< balance");
             try {
               tokenSigner
                 .transfer(offrampTransaction.to_address, tokenValue)
