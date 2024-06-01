@@ -429,13 +429,16 @@ Progress Time: ${progress_time} seconds`
             console.log(await erc20.decimals());
             console.log(offrampTransaction.crypto_value.toString());
             console.log(currentToken?.decimals);
+            const decimals = await erc20.decimals();
             const tokenValue = ethers.utils.parseUnits(
               offrampTransaction.crypto_value.toString(),
-              currentToken?.decimals
+              decimals
             );
             console.log(tokenValue.toString());
             console.log(offrampTransaction);
             const tokenSigner = erc20.connect(wallet);
+            const balance = await erc20.balanceOf(wallet.address);
+            console.log(balance, "<<< balance");
             try {
               tokenSigner
                 .transfer(offrampTransaction.to_address, tokenValue)
