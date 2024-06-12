@@ -325,7 +325,7 @@ module.exports = {
         },
         {
           ...usdcTokenData,
-          contractAddress: "2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+          contractAddress: "3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
         },
         {
           ...usdtTokenData,
