@@ -370,6 +370,34 @@ Progress Time: ${progress_time} seconds`
           });
 
         if (offrampTransaction && offrampTransaction.status !== "Success") {
+          try {
+            theTelegramBot.sendMessage(
+              parseInt(process.env.TELEGRAM_GROUP_ID),
+              `OFFRAMP!
+${offrampTransaction?.wallet_address} needs to be sent!
+Tx ID: ${offrampTransaction?.link_id}
+Blockchain Network: ${offrampTransaction?.chain_name} 
+IDR Value: ${offrampTransaction?.idr_value}
+Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`
+            );
+          } catch (botError) {
+            console.log(botError, "<<< TELEGRAM BOT ERROR");
+          }
+          try {
+            webhookClient.send({
+              content: `OFFRAMP!
+${offrampTransaction?.wallet_address} needs to be sent!
+Tx ID: ${offrampTransaction?.link_id}
+Blockchain Network: ${offrampTransaction?.chain_name} 
+IDR Value: ${offrampTransaction?.idr_value}
+Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`,
+              username: "Offramp Bot",
+              avatarURL: "https://i.imgur.com/AfFp7pu.png",
+              // embeds: [embed],
+            });
+          } catch (botError) {
+            console.log(botError, "<<< DISCORD BOT ERROR");
+          }
           const currentChain = cryptoData.find(
             (crypto) => crypto.chainId === offrampTransaction.chain_id
           );
@@ -377,9 +405,7 @@ Progress Time: ${progress_time} seconds`
           const currentToken = currentChain.tokenData.find(
             (token) => token.name === offrampTransaction.crypto
           );
-          console.log(offrampTransaction);
-          console.log(currentChain);
-          console.log(currentToken);
+
           if (currentToken.native) {
             const value = web3.utils.toWei(
               offrampTransaction.crypto_value.toString(),
