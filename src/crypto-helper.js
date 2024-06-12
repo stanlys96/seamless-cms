@@ -636,6 +636,11 @@ module.exports = {
           native: true,
           contractAddress: "EeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
         },
+        {
+          ...usdcTokenData,
+          native: false,
+          contractAddress: "833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        },
       ],
     },
     {
