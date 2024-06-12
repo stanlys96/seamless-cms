@@ -369,7 +369,7 @@ Progress Time: ${progress_time} seconds`
             },
           });
 
-        if (offrampTransaction && offrampTransaction.status !== "Success") {
+        if (offrampTransaction && offrampTransaction.status === "Pending") {
           try {
             theTelegramBot.sendMessage(
               parseInt(process.env.TELEGRAM_GROUP_ID),
@@ -398,6 +398,16 @@ Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`
           } catch (botError) {
             console.log(botError, "<<< DISCORD BOT ERROR");
           }
+          await strapi.db
+            .query("api::offramp-transaction.offramp-transaction")
+            .update({
+              where: {
+                link_id: result.bill_link_id,
+              },
+              data: {
+                status: "Processing",
+              },
+            });
           const currentChain = cryptoData.find(
             (crypto) => crypto.chainId === offrampTransaction.chain_id
           );
@@ -424,7 +434,6 @@ Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`
             web3.eth
               .sendSignedTransaction(signedTransaction.rawTransaction)
               .then(async (receipt) => {
-                console.log(receipt.status, "<<< receipt");
                 await strapi.db
                   .query("api::offramp-transaction.offramp-transaction")
                   .update({
