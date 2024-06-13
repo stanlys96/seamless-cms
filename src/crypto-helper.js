@@ -630,6 +630,7 @@ module.exports = {
       testNetwork: false,
       transactionUrl: "https://basescan.org/tx/",
       seamlessContract: baseSeamlessContract,
+      rpcUrl: "https" + process.env.BASE_RPC_URL,
       tokenData: [
         {
           ...ethTokenData,
