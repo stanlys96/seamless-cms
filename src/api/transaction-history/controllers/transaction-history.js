@@ -29,6 +29,27 @@ const webhookClient = new WebhookClient({
   token: process.env.DISCORD_BOT_RECEIPT_TOKEN,
 });
 
+const discordTelegramBotSent = (message) => {
+  try {
+    theTelegramBot.sendMessage(
+      parseInt(process.env.TELEGRAM_GROUP_ID),
+      message
+    );
+  } catch (botError) {
+    console.log(botError, "<<< TELEGRAM BOT ERROR");
+  }
+  try {
+    webhookClient.send({
+      content: message,
+      username: "Offramp Bot",
+      avatarURL: "https://i.imgur.com/AfFp7pu.png",
+      // embeds: [embed],
+    });
+  } catch (botError) {
+    console.log(botError, "<<< DISCORD BOT ERROR");
+  }
+};
+
 module.exports = createCoreController(
   "api::transaction-history.transaction-history",
   ({ strapi }) => ({
@@ -370,34 +391,12 @@ Progress Time: ${progress_time} seconds`
           });
 
         if (offrampTransaction && offrampTransaction.status === "Pending") {
-          try {
-            theTelegramBot.sendMessage(
-              parseInt(process.env.TELEGRAM_GROUP_ID),
-              `OFFRAMP!
-${offrampTransaction?.wallet_address} needs to be sent!
+          discordTelegramBotSent(`OFFRAMP!
+${offrampTransaction?.to_address} needs to be sent!
 Tx ID: ${offrampTransaction?.link_id}
 Blockchain Network: ${offrampTransaction?.chain_name} 
 IDR Value: ${offrampTransaction?.idr_value}
-Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`
-            );
-          } catch (botError) {
-            console.log(botError, "<<< TELEGRAM BOT ERROR");
-          }
-          try {
-            webhookClient.send({
-              content: `OFFRAMP!
-${offrampTransaction?.wallet_address} needs to be sent!
-Tx ID: ${offrampTransaction?.link_id}
-Blockchain Network: ${offrampTransaction?.chain_name} 
-IDR Value: ${offrampTransaction?.idr_value}
-Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`,
-              username: "Offramp Bot",
-              avatarURL: "https://i.imgur.com/AfFp7pu.png",
-              // embeds: [embed],
-            });
-          } catch (botError) {
-            console.log(botError, "<<< DISCORD BOT ERROR");
-          }
+Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`);
           await strapi.db
             .query("api::offramp-transaction.offramp-transaction")
             .update({
@@ -434,6 +433,12 @@ Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`
             web3.eth
               .sendSignedTransaction(signedTransaction.rawTransaction)
               .then(async (receipt) => {
+                discordTelegramBotSent(`OFFRAMP!
+Success!
+Tx ID: ${offrampTransaction?.link_id}
+Blockchain Network: ${offrampTransaction?.chain_name} 
+IDR Value: ${offrampTransaction?.idr_value}
+Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`);
                 await strapi.db
                   .query("api::offramp-transaction.offramp-transaction")
                   .update({
@@ -479,6 +484,12 @@ Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`
                 .transfer(offrampTransaction.to_address, tokenValue)
                 .then(async (res) => {
                   console.log(res, "<<< RES");
+                  discordTelegramBotSent(`OFFRAMP!
+Success!
+Tx ID: ${offrampTransaction?.link_id}
+Blockchain Network: ${offrampTransaction?.chain_name} 
+IDR Value: ${offrampTransaction?.idr_value}
+Crypto Value: ${offrampTransaction?.crypto_value} ${offrampTransaction?.crypto}`);
                   await strapi.db
                     .query("api::offramp-transaction.offramp-transaction")
                     .update({
