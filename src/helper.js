@@ -49,12 +49,13 @@ module.exports = {
     //   name: "Aurora",
     //   transactionUrl: "https://explorer.aurora.dev/tx/",
     // },
-    // {
-    //   id: 8,
-    //   chainId: 84531,
-    //   name: "Base",
-    //   transactionUrl: "https://basescan.org/tx/",
-    // },
+    {
+      id: 8,
+      chainId: 84531,
+      name: "Base",
+      transactionUrl: "https://basescan.org/tx/",
+      httpsRpcUrl: process.env.BASE_RPC_URL,
+    },
     // {
     //   id: 9,
     //   chainId: 59114,
